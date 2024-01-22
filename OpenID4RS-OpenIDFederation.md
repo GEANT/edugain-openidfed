@@ -2,7 +2,9 @@
 
 The following presents a general architecture for a trust model
 based on OpenID Federation, specifically tailored for the
-Research and Scholarship ecosystem.
+Research and Scholarship ecosystem,
+according to the pricinples and components defined in the document
+[General Architecture](OpenID4RS-General-Architecture.md).
 
 In this model, trust is established and managed through a federated system,
 leveraging the OpenID Federation protocol. This protocol enables secure and

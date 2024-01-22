@@ -1,20 +1,17 @@
 # General Architecture of the OpenID for Research and Scholarship
 This document defines the general architecture for a trust model based on
-OpenID Federation, specifically tailored for the research and scholarship ecosystem,
-according to the pricinples and components defined in the document
-[General Architecture](OpenID4RS-General-Architecture.md).
+OpenID Federation, specifically tailored for the research and scholarship ecosystem.
 
 In this model, trust is established and managed through a federated system,
 leveraging the OpenID Federation protocol. This protocol enables secure
-and seamless communication between various independent entities,
-such as research institutions, libraries, publishers, and data repositories.
+and seamless communication between various independent entities, belonging to different and indpendent organizations.
 
 ## Summary
 
 The general architecture for the trust model in the Research and Scholarship (R&S)
 ecosystem is defined with this document according to the following sections:
 
-1. Introduction: This section provide an overview of the document, its purpose, and the problem it aims to address.
+1. Introduction: This section provides an overview of the document, its purpose, and the problem it aims to address.
 2. Terminology: This section defines key terms and acronyms used throughout the document.
 3. Background: This section should provide context, including a brief explanation of the R&S ecosystem, the need for a trust model, and any relevant existing systems or protocols.
 4. Trust Model Principles: This section explains the basic principles behind the trust model, such as the concept of transitive trust and the role of a trusted third party.
@@ -29,11 +26,52 @@ ecosystem is defined with this document according to the following sections:
 ## 1. Introduction
 This section provides an overview of the document, its purpose, and the problem it aims to address.
 
+# General Architecture of the OpenID for Research and Scholarship
+
+The Research and Scholarship (R&S) ecosystem is a complex network, 
+characterized by intricate relationships between various entities. 
+These entities, which include research institutions and other stakeholders, 
+interact in ways that create a web of trust relationships.
+
+In this context, managing trust becomes a challenge, especially considering 
+the delegation mechanisms and the transitive nature of trust. Delegation 
+refers to the process where an entity assigns certain responsibilities to 
+another entity. Transitivity, on the other hand, allows an entity to trust 
+another entity indirectly, through their mutual trust in a third entity.
+
+This document introduces the OpenID4RS project, which proposes a solution 
+to these challenges. It presents an architecture that leverages OpenID 
+Connect and OpenID Federation to create a scalable trust model. This model 
+is designed to handle the complexities of the R&S ecosystem, including 
+delegation and transitive trust.
+
 ### 1.1 Purpose of the Document
 
 This architecture aims to provide a robust and flexible framework
 for establishing trust in the Research and Scholarship ecosystem,
 promoting collaboration and resource sharing while ensuring security and privacy.
+
+The primary purpose of this document is to delineate a clear pathway for the
+analysis of requirements and design considerations necessary to inform the
+decisions and definitions that underpin a trust model for the Research and
+Scholarship (R&S) ecosystem. It aims to provide a structured approach to
+understanding the intricate trust relationships and to design an underlying
+infrastructure that can support and scale these relationships effectively.
+
+By dissecting the requirements, this document seeks to identify the key
+elements and functionalities that the trust infrastructure must incorporate.
+It will explore the necessary policies, protocols, and technologies that
+enable entities within the R&S ecosystem to establish and maintain trusted
+relationships.
+
+Furthermore, the document will outline the design principles that should
+guide the development of the trust model. This includes the articulation of
+how trust can be delegated and transitive trust can be managed, ensuring
+that the trust model remains robust, flexible, and scalable.
+
+The ultimate goal is to provide stakeholders with a comprehensive framework
+that will guide the implementation of a trust model, facilitating secure,
+efficient, and collaborative exchanges within the R&S ecosystem.
 
 ### 1.2 Problem Statement
 
