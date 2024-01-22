@@ -20,6 +20,11 @@ It explains how OpenID Connect facilitates identity verification and secure comm
 - [OpenID4RS Federation](./OpenID4RS-OpenIDFederation.md): This document discusses the role of OpenID Federation in the trust model.
 It explains how OpenID Federation enables the establishment and maintenance of Trust Chains, and the optional use of Trust Marks.
 
+- [OpenID4RS Rules, Policies and Constraints](./OpenID4RS-Rules-Policies-and-Constraints.md): This document provides a detailed
+definition of the policies and artifacts in the OpenID4RS trust model, with a focus on the categories of intermediates,
+federation constraints, and entity categories as trust marks.
+
+
 Each document is intended to provide a comprehensive understanding of the different aspects of the trust model.
 They should be read in conjunction to gain a full understanding of the project.
 
