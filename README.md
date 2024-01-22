@@ -14,13 +14,13 @@ The project includes the following documents:
 It defines the basic principles behind the trust model, provides a high-level and detailed description of the architecture,
 and discusses practical considerations for implementation.
 
-- [OpenID4RS Connect](./OpenID4RS-OpenIDConnect.md): This document focuses on the use of OpenID Connect in the trust model.
-It explains how OpenID Connect facilitates identity verification and secure communication between entities in the R&S ecosystem.
-
 - [OpenID4RS Federation](./OpenID4RS-OpenIDFederation.md): This document discusses the role of OpenID Federation in the trust model.
 It explains how OpenID Federation enables the establishment and maintenance of Trust Chains, and the optional use of Trust Marks.
 
-- [OpenID4RS Rules, Policies and Constraints](./OpenID4RS-Rules-Policies-and-Constraints.md): This document provides a detailed
+- [OpenID4RS Connect](./OpenID4RS-OpenIDConnect.md): This document focuses on the use of OpenID Connect in the trust model.
+It explains how OpenID Connect facilitates identity verification and secure communication between entities in the R&S ecosystem.
+
+- [OpenID4RS Technical Rules, Policies and Constraints](./OpenID4RS-Rules-Policies-and-Constraints.md): This document provides a detailed
 definition of the policies and artifacts in the OpenID4RS trust model, with a focus on the categories of intermediates,
 federation constraints, and entity categories as trust marks.
 
