@@ -16,31 +16,52 @@ between these entities, allowing them to share resources and collaborate
 effectively. It does so by defining and enforcing policies for
 identity verification, access control, and data protection.
 
-At the heart of this architecture is the concept of a Trust Chain,
-a series of signed artifacts that represent the relationships and
-permissions between entities. This chain is built and maintained
-through a process known as Federation Entity Discovery.
 
-The model also incorporates optional Trust Marks, which federations
-can define and require based on their specific needs. These marks
-serve as additional indicators of trustworthiness within the ecosystem.
+## Scope of this Document
 
-This architecture aims to provide a robust and flexible framework
-for establishing trust in the research and scholarship ecosystem, promoting
-collaboration and resource sharing while ensuring security and privacy.
+The standard utilized within this architecture is OpenID Federation 1.0. For detailed specifications, please refer to the official documentation available at [OpenID Federation 1.0 Specifications](https://openid.net/specs/openid-connect-federation-1_0.html).
+
+This document serves as an implementation profile, fully compliant with the OpenID Federation specification, aimed at providing an implementation guide and defining implementation details for use cases specific to the research and scholarship community.
 
 
-## 1. Standards
-## 2. Terminology and Acronyms
-## 3. Identity Federation
-## 4. Entity Configuration
-## 5. Entity Statement
-## 6. Trust Marks
-## 7. Intermediates
-## 8. Trust Negotiation
-## 9. Federation Endpoints
-## 10. Federation Errors
-## 11. Differences between OpenID Federation 1.0 and OpenID4RS
-## 13. Security Considerations and Current Best Practices
-## 14. Examples
-## 15. Become a Provider
+## Terminology
+
+All terms used are defined within the
+[OpenID Federation 1.0 Specifications](https://openid.net/specs/openid-connect-federation-1_0.html)
+
+
+## Components and Roles
+
+All components and entity roles mentioned in this document are defined in the OpenID Federation specification. This document does not introduce any additional components but specifies the implementation characteristics for each component, as necessary for the Research and Scholarship profile.
+
+The components used in this specification, as defined in OpenID Federation, are the ones below:
+
+- 
+
+## Entity Configuration
+## Entity Statement
+## Trust Marks
+## Intermediates
+## Trust Negotiation
+## Federation Endpoints
+## Differences between OpenID Federation 1.0 and OpenID4RS
+## Security Considerations and Current Best Practices
+## Become an Identity Provider
+## Become a Relying Party
+
+The Research and Scholarship (R&S) ecosystem is a network, 
+characterized by relationships between various entities. 
+These entities, which include research institutions and other stakeholders, 
+interact in ways that create a web of trust relationships.
+
+In this context, managing trust becomes a challenge, especially considering 
+the delegation mechanisms and the transitive nature of trust. Delegation 
+refers to the process where an entity assigns certain responsibilities to 
+another entity. Transitivity, on the other hand, allows an entity to trust 
+another entity indirectly, through their mutual trust in a third entity.
+
+This document introduces the OpenID4RS project, which proposes a solution 
+to these challenges. It presents an architecture that leverages OpenID 
+Connect and OpenID Federation to create a scalable trust model. This model 
+is designed to handle the complexities of the R&S ecosystem, including 
+delegation and transitive trust.
