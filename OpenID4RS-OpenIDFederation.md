@@ -44,3 +44,21 @@ collaboration and resource sharing while ensuring security and privacy.
 ## 13. Security Considerations and Current Best Practices
 ## 14. Examples
 ## 15. Become a Provider
+
+
+The Research and Scholarship (R&S) ecosystem is a network, 
+characterized by relationships between various entities. 
+These entities, which include research institutions and other stakeholders, 
+interact in ways that create a web of trust relationships.
+
+In this context, managing trust becomes a challenge, especially considering 
+the delegation mechanisms and the transitive nature of trust. Delegation 
+refers to the process where an entity assigns certain responsibilities to 
+another entity. Transitivity, on the other hand, allows an entity to trust 
+another entity indirectly, through their mutual trust in a third entity.
+
+This document introduces the OpenID4RS project, which proposes a solution 
+to these challenges. It presents an architecture that leverages OpenID 
+Connect and OpenID Federation to create a scalable trust model. This model 
+is designed to handle the complexities of the R&S ecosystem, including 
+delegation and transitive trust.
