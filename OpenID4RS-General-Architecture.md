@@ -173,8 +173,11 @@ as additional indicators of trustworthiness within the ecosystem.
 ... use cases ... common usages ...
 
 
+## Authorization Infrastructure Components
 
-## Authorization Infrastructure Component
+...
+
+## Authentication Infrastructure Components
 
 ...
 
