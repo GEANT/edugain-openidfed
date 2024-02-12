@@ -12,7 +12,8 @@ The ultimate objective of this document is to equip stakeholders with a comprehe
 The architecture is designed around two core components:
 
 1. Trust: Involves the assessment and validation of entities' identities and their compliance with specific standards or regulations. This process includes organizations, natural or legal persons, services, or devices, and encompasses identity verification, compliance evaluation, accreditation, and the verification of compliance proofs. Trust establishes the foundation for determining an entity's eligibility to perform certain actions or fulfill specific roles within a regulated framework.
-2. Authorization: Focuses on the processes of authenticating entities and authorizing their access to protected resources or services.
+2. Authentication: Focuses on the processes of authenticating entities. 
+3. Authorization: Focuses on the processes of authorizing entities granting their access to protected resources or services.
 
 The document is organized into the following sections:
 
