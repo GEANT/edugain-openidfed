@@ -76,28 +76,30 @@ The architecture is designed around three core components:
 2. Authentication: Focuses on the processes of authenticating entities. 
 3. Authorization: Focuses on the processes of authorizing entities granting their access to protected resources or services.
 
-## Requirements
+## General Requirements
 
-1. CR-001: The system must support the integration of multiple Identity Providers (IdPs), belonging to different organizations and domains, to accommodate diverse digital identities.
-2. CR-002: The trust model shall enable the evaluation and validation of entities' compliance with predefined standards and regulations.
-3. CR-003: Authorization mechanisms must enforce access control based on roles, permissions, and policies defined within the Trust Framework.
-4. CR-004: The infrastructure must ensure data privacy and security, adhering to applicable laws and standards such as GDPR or HIPAA.
-5. CR-005: The system shall provide mechanisms for issuing, validating, and revoking Trust Marks to entities meeting specific trustworthiness criteria.
-6. CR-006: Trust and authorization processes must support scalability to manage an increasing number of entities without compromising performance.
-7. CR-007: The architecture must facilitate interoperability among different systems, protocols, and technologies within the ecosystem.
-8. CR-008: Entities must be able to delegate authority or responsibilities securely, supporting distributed trust mechanisms.
-9. CR-009: The system should enable transitive trust, allowing entities to trust each other based on common trusted intermediaries.
-10. CR-010: All interactions within the ecosystem must ensure the integrity, confidentiality, and authenticity of exchanged data.
-11. CR-011: The infrastructure should support the autonomy of entities, allowing them to define and manage their own trust and authorization policies.
-12. CR-012: The system must provide a user-friendly interface for users to manage their digital identities and access permissions.
-13. CR-013: Authorization Servers (AS) must implement protocols for secure token issuance, validation, and revocation.
-14. CR-014: Resource Servers (RS) must be capable of handling protected resource requests in compliance with access tokens issued by Authorization Servers.
-15. CR-015: The architecture must include mechanisms for continuous monitoring and auditing to detect and respond to security threats promptly.
-16. CR-016: The system must implement mechanisms to assess and assign levels of assurance (LoA) to the identity of authenticated entities, such as users, based on the strength and reliability of the authentication process.
-17. CR-017: Identity Providers (IdPs) must be capable of providing verifiable evidence supporting the assigned level of assurance for each authenticated entity.
-18. CR-018: The trust model shall incorporate criteria for evaluating the level of assurance required for access to specific resources or services, ensuring appropriate security measures are enforced.
-19. CR-019: Authorization decisions must take into account the level of assurance of the entity's identity, restricting access to resources or services based on the required assurance levels.
-20. CR-020: The infrastructure must support dynamic adjustment of access rights and permissions based on changes to an entity's level of assurance over time.
+| ID | Requirement |
+|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GR-001 | The system must support the integration of multiple Identity Providers (IdPs), belonging to different organizations and domains, to accommodate diverse digital identities. |
+| GR-002 | The trust model shall enable the evaluation and validation of entities' compliance with predefined standards and regulations. |
+| GR-003 | Authorization mechanisms must enforce access control based on roles, permissions, and policies defined within the Trust Framework. |
+| GR-004 | The infrastructure must ensure data privacy and security, adhering to applicable laws and standards such as GDPR or HIPAA. |
+| GR-005 | The system shall provide mechanisms for issuing, validating, and revoking Trust Marks to entities meeting specific trustworthiness criteria. |
+| GR-006 | Trust and authorization processes must support scalability to manage an increasing number of entities without compromising performance. |
+| GR-007 | The architecture must facilitate interoperability among different systems, protocols, and technologies within the ecosystem. |
+| GR-008 | Entities must be able to delegate authority or responsibilities securely, supporting distributed trust mechanisms. |
+| GR-009 | The system should enable transitive trust, allowing entities to trust each other based on common trusted intermediaries. |
+| GR-010 | All interactions within the ecosystem must ensure the integrity, confidentiality, and authenticity of exchanged data. |
+| GR-011 | The infrastructure should support the autonomy of entities, allowing them to define and manage their own trust and authorization policies. |
+| GR-012 | The system must provide a user-friendly interface for users to manage their digital identities and access permissions. |
+| GR-013 | Authorization Servers (AS) must implement protocols for secure token issuance, validation, and revocation. |
+| GR-014 | Resource Servers (RS) must be capable of handling protected resource requests in compliance with access tokens issued by Authorization Servers. |
+| GR-015 | The architecture must include mechanisms for continuous monitoring and auditing to detect and respond to security threats promptly. |
+| GR-016 | The system must implement mechanisms to assess and assign levels of assurance (LoA) to the identity of authenticated entities, such as users, based on the strength and reliability of the authentication process. |
+| GR-017 | Identity Providers (IdPs) must be capable of providing verifiable evidence supporting the assigned level of assurance for each authenticated entity. |
+| GR-018 | The trust model shall incorporate criteria for evaluating the level of assurance required for access to specific resources or services, ensuring appropriate security measures are enforced. |
+| GR-019 | Authorization decisions must take into account the level of assurance of the entity's identity, restricting access to resources or services based on the required assurance levels. |
+| GR-020 | The infrastructure must support dynamic adjustment of access rights and permissions based on changes to an entity's level of assurance over time. |
 
 ## General Properties
 
