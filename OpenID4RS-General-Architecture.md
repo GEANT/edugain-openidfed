@@ -6,6 +6,14 @@ This document provides detailed requirements and design considerations offering 
 By thoroughly examining the requirements and according to their satisfaction, it defines the necessary core components, policies, patterns that enable entities within the Research and Scholarship ecosystem to establish and maintain trusted and authorized relationships.
 
 The ultimate objective of this document is to equip stakeholders with a comprehensive framework for implementing a trust and authorization model. This model aims to enable secure, efficient, and collaborative exchanges within a broad, cross-organizational and cross-domain ecosystem.
+# General Architecture of Trust, Authentication and Authorization Infrastructure for Research and Scholarship
+This document defines the general architecture for trust and authorization infrastructure, designed to facilitate access to protected resources, including services and personal data. This document is developed by the Research and Scholarship community, even if it is drawed on advancements in SAML2 and OAuth 2.0 technologies, it aims to be technology-agnostic. It focuses on the key components and principles necessary for managing digital identities and authorizing entities across various domains and organizations.
+
+This document provides detailed requirements and design considerations offering a systematic approach to understanding complex trust relationships and authorization patterns, crafting an infrastructure capable of supporting and scaling these relationships efficiently.
+
+By thoroughly examining the requirements and according to their satisfaction, it defines the necessary core components, policies, patterns that enable entities within the Research and Scholarship ecosystem to establish and maintain trusted and authorized relationships.
+
+The ultimate objective of this document is to equip stakeholders with a comprehensive framework for implementing a trust and authorization model. This model aims to enable secure, efficient, and collaborative exchanges within a broad, cross-organizational and cross-domain ecosystem.
 
 ## Summary
 
@@ -48,6 +56,15 @@ This section defines key terms and acronyms used throughout the document.
 
 ### 2.2 Acronyms
 
+- TM: Trust Mark
+- TF: Trust Framework
+- AS: Authorization Server
+- RS: Resource Server
+- RP: Relying Party
+- IDP: Identity Provider
+
+
+## Background and Problem Statement
 - TM: Trust Mark
 - TF: Trust Framework
 - AS: Authorization Server
@@ -129,6 +146,7 @@ process. This section explains the concept of the Trust Chain, how it is
 established and maintained, and its role in the trust model.
 
 ##### Concept of the Trust Chain
+##### Concept of the Trust Chain
 
 At a high level, the Trust Chain operates on the principle of transitive trust,
 facilitated by a trusted third party common to all participating independent organizations.
@@ -152,15 +170,20 @@ with every other organization individually.
 
 ### Establishment and Maintenance of the Trust Chain
 ### Role of the Trust Chain in the Trust Model
+### Establishment and Maintenance of the Trust Chain
+### Role of the Trust Chain in the Trust Model
 
+### Trust Marks
 ### Trust Marks
 This section explains the concept of Trust Marks, how they are
 defined and used, and their role in the trust model.
 
 The model incorporates Trust Marks, which federations can
+The model incorporates Trust Marks, which federations can
 define and require based on their specific needs. These marks serve
 as additional indicators of trustworthiness within the ecosystem.
 
+- Role of Trust Marks in the Trust Model
 - Role of Trust Marks in the Trust Model
 
 #### Use of Trust Marks
