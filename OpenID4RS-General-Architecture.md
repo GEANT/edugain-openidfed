@@ -1,4 +1,12 @@
 # General Architecture of Trust, Authentication and Authorization Infrastructure for Research and Scholarship
+This document defines the general architecture for trust and authorization infrastructure, designed to facilitate access to protected resources, including services and personal data, within the Research and Education community. While it draws on advancements in SAML2 and OAuth 2.0 technologies, it aims to be technology-agnostic, focusing on the key components and principles necessary for managing digital identities and authorizing entities across various domains and organizations.
+
+The architecture outlined herein provides a systematic approach to understanding complex trust relationships and authorization patterns, crafting an infrastructure capable of supporting and scaling these relationships efficiently within the Research and Education ecosystem.
+
+By examining the requirements and ensuring their satisfaction, this document outlines the necessary core components, policies, and patterns that enable entities within the Research and Education community to establish and maintain trusted and authorized relationships.
+
+The ultimate objective of this document is to provide stakeholders within the Research and Education ecosystem with a comprehensive framework for implementing a trust and authorization model that enables secure, efficient, and collaborative exchanges within a broad, cross-organizational, and cross-domain ecosystem.
+
 This document defines the general architecture for trust and authorization infrastructure, designed to facilitate access to protected resources, including services and personal data. This document is developed by the Research and Scholarship community, even if it is drawed on advancements in SAML2 and OAuth 2.0 technologies, it aims to be technology-agnostic. It focuses on the key components and principles necessary for managing digital identities and authorizing entities across various domains and organizations.
 
 This document provides detailed requirements and design considerations offering a systematic approach to understanding complex trust relationships and authorization patterns, crafting an infrastructure capable of supporting and scaling these relationships efficiently.
@@ -74,7 +82,7 @@ This section defines key terms and acronyms used throughout the document.
 
 
 ## Background and Problem Statement
-This section provides context, including a brief explanation of the R&S
+This section provides context, including a brief explanation of the Research and Education
 ecosystem, the need for a trust model, and any relevant existing
 systems or protocols.
 

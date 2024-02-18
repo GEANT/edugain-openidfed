@@ -1,4 +1,5 @@
-# OpenID Federation R&S Implementation Profile
+# OpenID Federation Research and Education Implementation Profile
+
 
 This document outlines a trust infrastructure
 based on OpenID Federation 1.0, specifically tailored for the

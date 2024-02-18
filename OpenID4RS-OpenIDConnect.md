@@ -20,7 +20,7 @@ include the management of logs and the process of revocation
 The aim is to provide a comprehensive understanding of how OpenID Connect
 facilitates secure and seamless communication between various entities in
 the Research and Scholarship ecosystem. This document should be read in
-conjunction with the `OpenID Federation R&S Implementation Profile` document
+conjunction with the `OpenID Federation Research and Education Implementation Profile` document
 to gain a full understanding of the OpenID4RS project.
 
 ## 2. Standards

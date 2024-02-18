@@ -4,10 +4,10 @@
 
 # OpenID for Research and Scholarship (OpenID4RS) Project
 
-This project aims to establish a trust model for the Research and Scholarship (R&S)
+This project aims to establish a trust model for the Research and Scholarship (Research and Education)
 ecosystem using OpenID Connect and OpenID Federation specifications.
 The goal is to facilitate secure and seamless communication between
-various independent entities in the R&S ecosystem, such as research institutions,
+various independent entities in the Research and Education ecosystem, such as research institutions,
 libraries, publishers, and data repositories.
 
 ## Documentation
@@ -22,7 +22,7 @@ and discusses practical considerations for implementation.
 It explains how OpenID Federation enables the establishment and maintenance of Trust Chains, and the optional use of Trust Marks.
 
 - [OpenID4RS Connect](./OpenID4RS-OpenIDConnect.md): This document focuses on the use of OpenID Connect in the trust model.
-It explains how OpenID Connect facilitates identity verification and secure communication between entities in the R&S ecosystem.
+It explains how OpenID Connect facilitates identity verification and secure communication between entities in the Research and Education ecosystem.
 
 - [OpenID4RS Technical Rules, Policies and Constraints](./OpenID4RS-Rules-Policies-and-Constraints.md): This document provides a detailed
 definition of the policies and artifacts in the OpenID4RS trust model, with a focus on the categories of intermediates,
