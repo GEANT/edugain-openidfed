@@ -93,7 +93,7 @@ Trust Anchor
          |
          +-- Carlo (Relying Party)
 ```
-Figure 1. How can Carlo and Marco establish trust with each other under this hierarchical structure?
+**Figure 1.** __How can Carlo and Marco establish trust with each other under this hierarchical structure?__
 
 
 At the heart of this system are digital identities, which empower relying parties (RP) and OpenID Providers (OP) to authenticate each other mutually and authorize user authentication through designated authentication protocols.
