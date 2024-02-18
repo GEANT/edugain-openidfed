@@ -80,15 +80,27 @@ The terms are subdivided in two categories, by roles within the ecosystem and te
 
 ## 3. A Federation For Digital Identities And Authorizations
 
-The trust infrastructure build using OpenID Federation, consists of authorities and participants. Trust relationships are established through interactions made possibile with the OpenID Federation standard, while authorization and authentication for requesting and accessing to specific digital resources are establiches through specific protocols, not defined in this document, that can be configured in openid federation in the form of metadata, for configuring each participant's requirements and for interoperability. 
+The OpenID Federation constructs a trust infrastructure composed of authorities and participants. Trust relationships are forged through the OpenID Federation standard, facilitating authorization and authentication processes for accessing specific digital resources. These processes are enabled by protocols, not detailed in this document, which are integrated into the OpenID Federation as metadata. This integration allows for the customization of each participant's requirements and ensures interoperability.
 
-This setup enables delegation and the achievement of transitive properties, streamlining the extension of trust across various entities within the federation.
+This framework promotes delegation and the transitive extension of trust among the federation's various entities, thereby streamlining trust propagation. OpenID Federation is able to solve the problem represented in the following figure, where the answer is "Through a common Trusted Third Party" that in this case is represented by the Trust Anchor.
 
-Digital identities are central to this framework, allowing relying parties (RP) and OpenID Providers (OP) to mutually authenticate each other and get authorizaed in authenticating users through specific authentication protocols. 
+```
+Trust Anchor
+    |
+    +-- Marco (Identity Provider)
+    |
+    +-- Alice (Intermediate)
+         |
+         +-- Carlo (Relying Party)
+```
+Figure 1. How can Carlo and Marco establish trust with each other under this hierarchical structure?
 
-OpenID Federation allows the participants to eliminates the need for pre-established registration, simplifying the trust establishment between RP and OP.
 
-Furthermore, the OpenID Federation supports OAuth 2.0 clients, authorization servers, and resource servers in establishing trust and then establishing authorizations.
+At the heart of this system are digital identities, which empower relying parties (RP) and OpenID Providers (OP) to authenticate each other mutually and authorize user authentication through designated authentication protocols.
+
+The OpenID Federation model obviates the necessity for pre-established registrations, easing the process of trust establishment between RPs and OPs.
+
+Additionally, the OpenID Federation framework facilitates the establishment of trust and subsequent authorizations for OAuth 2.0 clients, authorization servers, and resource servers.
 
 
 ## 4. Entity Configuration
@@ -203,14 +215,19 @@ In addition to the Entity Configuration Common Parameters, Intermediates and Lea
 | `trust_marks`      | A JSON Array containing the Trust Marks.    |
 
 
+### Entity Configurations for Multiple Federations
+
 An important consideration within the OpenID Federation is the multifaceted roles an entity can assume across different federations. For instance, an entity like Marco could function as an OpenID Relying Party and an OpenID Provider within the educational federation, while simultaneously serving as a Trust Anchor in a local federation, where it represents the highest level of authority. This versatility underscores the necessity for a flexible approach to entity configuration validation. Given the potential for an entity's role to shift depending on the federation context, strict validation of an entity's configuration could inadvertently restrict its ability to participate across multiple federations. Therefore, it is crucial to recognize that an entity's configuration may vary significantly, reflecting its diverse roles and responsibilities within different federated environments.
 
 
 ### Considerations on Federation Entity Keys and Metadata Protocol Specific Keys (JWKS)
 
-The Entity Configuration includes top-level JWT keys and specific metadata protocol keys (JWKS) to ensure secure communication and trust within the federation. The top-level JWT keys are used for signing the Entity Configuration itself, providing a layer of security and integrity. These keys should be distinct from the OIDC Core keys to avoid potential conflicts and security issues.
+The Entity Configuration includes top-level JWT keys and specific metadata protocol keys (JWKS) to ensure secure communication and trust within the federation. The top-level JWT keys are used for signing the Entity Configuration itself, providing a layer of security and integrity. These keys should be distinct from the OIDC Core keys, or any other protocol specific keys, to achieve the good practice to specialized different keys for different purposes. Then keys used for Trust and compliance operations are not used for protocol specific operations.
 
-The JWKS contained within each specific metadata type (`openid_relying_party`, `openid_provider`, etc.) represents the public part of the signing keys for that entity. This allows for secure interactions and trust verification between entities within the federation. Each JWK in the JWKS must have a key ID (`kid`) to be properly identified and used for cryptographic operations.
+The JWKS contained within each specific metadata type (`openid_relying_party`, `openid_provider`, etc.) represents the public part of the signing keys for that entity's specific protocols.
+
+
+Each JWK, despite if it is a federation entity key or a protocol specific key, must have a key ID (`kid`) to be properly identified and used for cryptographic operations.
 
 By maintaining separate keys for the federation entity and the specific metadata protocols, the OpenID Federation ensures a robust and secure framework for digital identities and authorizations.
 
