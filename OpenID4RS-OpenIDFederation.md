@@ -244,6 +244,16 @@ Focuses on the role of intermediates in the trust chain, detailing how they faci
 ## 8. Trust Negotiation
 Explores the process of trust negotiation within the federation, highlighting the mechanisms and protocols involved in establishing trust between entities.
 
+
+### Trust Chain
+
+Imagine a chain of trust, like a relay race:
+
+    - It starts with Entity Configuration, like the starting point.
+    - There can be zero or more Subordinate Statements, like runners passing the baton. These statements are issued by Intermediates (think of them as middle runners) about other entities called Subordinates (like the next runner in line).
+    - Finally, there's a statement issued by the Trust Anchor (the end of the race). This statement is either about the last Intermediate or the final entity (the Leaf Entity).
+    - This chain always ends with the Entity Configuration of the Trust Anchor, like crossing the finish line, even though it might not always be shown in the details.
+
 ## 9. Federation Endpoints
 Details the various endpoints in the federation architecture, explaining their functions and how they support communication and interaction within the federation.
 
