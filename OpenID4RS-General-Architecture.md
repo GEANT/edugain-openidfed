@@ -1,4 +1,4 @@
-# General Architecture of Trust, Authentication and Authorization Infrastructure for Research and Scholarship
+# General Architecture of Trust, Authentication and Authorization Infrastructure for Research and Education
 This document defines the general architecture for trust and authorization infrastructure, designed to facilitate access to protected resources, including services and personal data, within the Research and Education community. While it draws on advancements in SAML2 and OAuth 2.0 technologies, it aims to be technology-agnostic, focusing on the key components and principles necessary for managing digital identities and authorizing entities across various domains and organizations.
 
 The architecture outlined herein provides a systematic approach to understanding complex trust relationships and authorization patterns, crafting an infrastructure capable of supporting and scaling these relationships efficiently within the Research and Education ecosystem.
