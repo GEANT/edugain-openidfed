@@ -302,6 +302,9 @@ Below is a simplified, non-normative example of a Subordinate Statement, where t
 }
 ```
 
+The parameters provided in the Subordinate Statements are defined below, ensuring full compliance with the OpenID Federation specification. 
+
+
 | Parameter Name | State | Description |
 |-------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | iss | REQUIRED | The Entity Identifier of the issuer of the Subordinate Statement. |
@@ -311,9 +314,7 @@ Below is a simplified, non-normative example of a Subordinate Statement, where t
 | jwks | REQUIRED | A JSON Web Key Set (JWKS) representing the public part of the subject's Federation Entity signing keys. |
 | metadata | OPTIONAL | JSON object with protocol-specific claims that overrides the subject's metadata. |
 | metadata_policy | OPTIONAL | JSON object that defines a metadata policy. The metadata policy applies to the descendant's metadata, therefore to Subordinate's metadata as well as to all Entities that are Subordinate to it. |
-| constraints | OPTIONAL | JSON object that describes constraints that apply to the Trust Chain. |
-| crit | OPTIONAL | Entity Statements require that the crit (critical) claim be understood and processed. |
-| metadata_policy_crit | OPTIONAL | Array of strings specifying critical metadata policy operators other than the standard ones defined that MUST be understood and processed. Only Subordinate Statements MAY include this claim. |
+| constraints | OPTIONAL | JSON object that describes constraints that apply to the Trust Chain inm erlations to the Descendants. |
 | trust_marks | OPTIONAL | An array of JSON objects, each representing a Trust Mark. |
 | trust_mark_issuers | OPTIONAL | A Trust Anchor MAY use this claim to tell which combination of Trust Mark identifiers and issuers are trusted by the federation. |
 | trust_mark_owners | OPTIONAL | If a Federation Operator knows that a Trust Mark identifier is owned by an Entity different from the Trust Mark issuer, then that knowledge MUST be expressed in this claim. |
@@ -331,13 +332,178 @@ For detailed information on Trust Marks, including their structure, issuance, an
 ## 7. Accreditation Bodies
 In the OpenID Federation framework, accreditation bodies can be categorized into three main types: Trust Anchors, Intermediates, and Trust Mark Issuers.
 
-Accreditations bodies have their hierarchy, since the Trust Anchor registers both the intermediates as Subordinates and the Trust Marks Issuers (which are not Subordinates) and the Trust Marks Issuers register the Trust Marks as Subordinates. The Trust Mark Issuers are published within the Trust Anchor's Entity Configuration, in the parameter `trust_mark_issuers`.
+Accreditations bodies have their hierarchy, since the Trust Anchor registers both the intermediates as Subordinates and the Trust Marks Issuers (which are not Subordinates). The Trust Mark Issuers are published within the Trust Anchor's Entity Configuration, in the parameter `trust_mark_issuers`.
+
+## 7.1 Accreditation Bodies Constraints
+
+There are Accreditation Bodies, in the form of Intermediates, allowed to registers only the entities belonging to their domain. When this is true, the trust anchor includes in the subordinate statement regarding to these type of accreditation bodies, the following parameters:
+
+| Parameter Name | State | Description |
+|----------------|-------|-------------|
+| crit | OPTIONAL | Entity Statements require that the crit (critical) claim be understood and processed. |
+| metadata_policy_crit | OPTIONAL | Array of strings specifying critical metadata policy operators other than the standard ones defined that MUST be understood and processed. Only Subordinate Statements MAY include this claim. |
 
 
-## 8. Trust Establishment
-Explores the process of trust negotiation within the federation, highlighting the mechanisms and protocols involved in establishing trust between entities.
+## 8. Trust Establishment and Metadata Exchange
+
+Trust within the OpenID Federation is established through a multi-step process that involves the discovery and collection of entity statements (Leaf's Entity Confgiuration, one or more Subordinate Statements, Trust Anchor Entity Confgiuration), validation of derivating Trust Chain, validation of Trust Marks (if allowed by the Trust Anchor), and the application of metadata policies to obtain the final metadata for an entity. This process ensures that trust is not only declared but also verified and enforced according to the federation's standards and policies.
+
+### Discovery and Collection of Trust Chains
+The process begins with the discovery of trust chains. A trust chain is a sequence of Subordinate Statements, starting from a known Trust Anchor down to the entity in question. Each entity in the chain, except for the Trust Anchor, must have a Subordinate Statement issued by its immediate superior in the chain. The discovery process typically involves fetching these statements from well-known endpoints or directories maintained by the federation.
+
+### Validation of the Trust Chain
+Once a trust chain is collected, each link in the chain must be validated. This involves verifying the digital signatures on each Subordinate Statement to ensure they were indeed issued by the claimed superior entity and have not been tampered with. Additionally, the validity period of each statement is checked to ensure that none of the statements have expired.
+
+### Validation of Trust Marks
+If any entity in the trust chain possesses Trust Marks, these must also be validated. This involves verifying the digital signature on each Trust Mark to ensure it was issued by a recognized Trust Mark Issuer and checking that the Trust Mark is still valid. The Trust Anchor's configuration specifies which Trust Mark Issuers are recognized and trusted within the federation.
+
+### Application of Metadata Policies
+Finally, metadata policies specified in the Subordinate Statements are applied. This involves merging the metadata from each entity in the chain, starting from the Trust Anchor down to the entity in question, and applying any metadata policies that modify or restrict the inherited metadata. The result is the final metadata for the entity, which reflects both its own claims and any restrictions or modifications imposed by its superiors in the trust chain.
 
 
+### How the RP discovers the OPs
+
+In the OpenID Federation process, a Relying Party (RP) embarks on a systematic journey to discover and validate Identity Providers (OPs) within the federation. This journey begins at the Trust Anchor, where the RP uses a listing endpoint to filter through all intermediates and OPs. For each entity identified, the RP fetches Subordinate Statements to trace the trust chain, continuing this process until it reaches the leaf entities, which are the OPs themselves. At this stage, the RP fetches the Entity Configuration of each OP.
+
+This meticulous process allows the RP to navigate the entire federation, ensuring that it collects and validates the trust chain for each OP. The culmination of this process is the creation of the Trust chains related to all the OPs and the inclusion of these into a discovery page. This page includes each OP, enriched with validated information and logos obtained through their respective trust chains, thus providing a comprehensive and secure overview of available Identity Providers within the federation.
+
+```
+@startuml
+participant "Relying Party" as RP
+participant "Trust Anchor" as TA
+participant "Intermediate" as IM
+participant "Identity Provider (OP)" as OP
+
+RP -> TA: Fetch the list of all Intermediates and OPs
+loop for each Intermediate
+    RP -> IM: Fetch listing of Subordinates/OPs
+end
+loop for each OP
+    RP -> OP: Fetch OP's Entity Configuration
+    RP -> IM: Fetch Subordinate Statement(s) for OP
+    RP -> TA: Fetch Subordinate Statement for Intermediate(s)
+    RP -> RP: Validate Trust Chain for OP
+    RP -> RP: Include OP in Discovery Page\nwith validated information and logo
+end
+
+@enduml
+```
+Sequence Diagram X. [This diagram](http://www.plantuml.com/plantuml/svg/VP6nQiCm48PtFyMHfSbGkdSe2MaB6Og54pfrKQsBVI2VWdHEyTlth7HGGgW76UJl_twTl4vYeuo3hqxwffPEbWKM3Vg9k0EZczC2R8B6N1E7E2Q13RTzY1auRAw17Gl60HrPmGpiFcu0Xoma4vWOpkGmmh8sgupMfgeQ0uylQds6TvIs1qz9vYE58rZleTGdiEmqb2eVmWcE8G9QZPHC1VfafnxaZdC_VeVeY6VTqwn2TZUwsXIIscH9tdv8y7OPPHluIDqOhL3WkvL53-n5rm5PbccLQye67VtVJ0wK4wgaI3Twla_hoSsXoy_QzfQuw2d87RT-TAWVG95NIcquOvp0s0w_-8UaX_EVp2cXZY6Fc2_UXoxawwhMkew3_mK0) shows how a Relying Party navigates the federation, collecting and validating the trust chain for each Identity Provider (OP), and then creates a discovery page including each OP using the information and logo obtained through their trust chain.
+
+This comprehensive process ensures that trust within the federation is not only declared but also rigorously verified and enforced, allowing entities within the federation to confidently rely on the authenticity and integrity of each other's claims.
+
+### How the AS/OP registers a new Client/RP
+
+The process of an Authorization Server (AS) or OpenID Provider (OP) registering a new Client or Relying Party (RP) often involves automatic client registration. This process allows clients to be dynamically registered with the AS/OP without manual intervention.
+
+1. Client Request: The RP sends a request to the AS/OP. This request is a protocol specific request providing only the entity ID in the form of HTTPs URL.
+2. Validation: The AS/OP discovers the trust with the Client usinf the federation discovery process.
+3. Registration Confirmation: If the Trust Chains is successful, the AS/OP accepts the request.
+
+```
+@startuml
+participant "Relying Party (RP)" as RP
+participant "Authorization Server/OpenID Provider (AS/OP)" as ASOP
+
+RP -> ASOP: Send a request\nwith RP's HTTP URL entity id
+ASOP -> ASOP: Validate the trust (Federation Discovery Process)
+alt If validation is successful
+    ASOP -> RP: Return the response
+else If validation fails
+    ASOP -> RP: Return error response
+end
+@enduml
+```
+Sequence Diagram x. This [sequence diagram](http://www.plantuml.com/plantuml/svg/TP3FIpin4CNl-Ik6NhxjuKll7gI58XQ4XhHwyX9sPzs1cAmpavNrhtUsLQY2WVmWUP_t7jc8HjRwcjnWEpKqnAom29WcoY_WxNA2PV2h1KI1u7_AjbNxmlGHbKg68_A8l3uCcFSxy5n6Qf5XkJsk3ry6s-F1EnSy_ByzdsyCoYr4O7ohAFgStqbxo_adS7ywUNWC3u1PoLfGwmovGfzYeZOgWlOskOh2yWujyb9dHz8KApJDLHeKMRcO5FOTZ1Tm5f60r6P-xMfoOECx8rX2GAsSp_wCCfGiw309_ZBf8YNv2qRcmbTuRjt65lloJm00) illustrates the automatic client registration process.
+
+
+#### Federation Discovery Process
+
+The sequence diagram starts with the OP fetching the RP's entity configuration to identify authority hints, which are pointers to entities that can issue statements about the RP. The OP then follows these hints, collecting subordinate statements from intermediate entities and validating each one. The process continues until the OP reaches the Trust Anchor, whose statement is also fetched and validated. Finally, the OP compiles the validated trust chain and checks for its expiry. If the trust chain is valid and unexpired, the OP proceeds with the federation process; otherwise, the process is aborted with an error.
+
+```
+@startuml
+participant "OpenID Provider (OP)" as OP
+participant "Relying Party (RP)" as RP
+participant "Intermediate Entities" as IE
+participant "Trust Anchor" as TA
+
+OP -> RP: Fetch RP's Entity Configuration
+RP -> OP: Return Entity Configuration
+
+OP -> RP: Extract Authority Hints from RP's Configuration
+RP -> OP: Provide Authority Hints
+
+loop for each Authority Hint
+    OP -> IE: Fetch Entity Configuration
+    IE -> OP: Fetch Subordinate Statement
+    OP -> OP: Validate the previous statement\nusing the Federation Entity Keys\nprovided in the Subordinate Statement
+end
+
+OP -> OP: Validate Trust Chain
+
+alt If Trust Chain is Valid and Unexpired
+    OP -> OP: Proceed with Federation Process
+else
+    OP -> OP: Abort Process with Error
+end
+
+OP -> OP: Applies Policies
+OP -> OP: Derive RP's final metadata
+
+@enduml
+```
+Sequence Diagram x. The OP building the Trust chain related to an RP.
+
+
+### How checks a Lead againt any revocations
+
+The sequence diagram below illustrates the federation discovery process from the perspective of an OpenID Provider (OP) verifying an unexpired trust chain for a Relying Party (RP). The process involves fetching the RP's entity configuration, following authority hints to reach the Trust Anchor, collecting all subordinate statements along the way, and validating the trust chain.
+
+#### Trust Chain Fast Renewal
+
+After detailing the federation discovery process, we now turn our attention to the Trust Chain Fast Renewal method. This approach offers a streamlined way to maintain the validity of a trust chain without undergoing the full discovery process again. It's particularly useful for quickly updating trust relationships when minor changes occur or when the trust chain is close to expiration but the overall structure of the federation hasn't changed significantly.
+
+The Trust Chain Fast Renewal process is initiated by fetching the leaf's (RP's or OP's) entity configuration anew. However, unlike the federation discovery process that may involve fetching entity configurations starting from the authority hints, the fast renewal focuses on directly obtaining the subordinate statements. These statements are requested using the source_endpoint provided within them, which points to the location where the statements can be fetched.
+
+#### Conditions for Fast Renewal
+
+Fast Renewal is contingent on two critical conditions:
+
+1. Presence of `source_endpoint`: The process is only possible if the subordinate statements include a `source_endpoint`. This endpoint indicates where the statements can be directly fetched, bypassing the need to traverse the entire trust chain from the top.
+
+2. Unchanged Federation Fetch Endpoint: The authority (Intermediate or Trust Anchor) must not have altered its federation fetch endpoint in its entity configuration. If this endpoint has changed, it implies a potential restructuring of the trust relationships or federation architecture, necessitating a return to the classical federation discovery process to re-establish trust chains accurately.
+
+```
+@startuml
+participant "Leaf (RP/OP)" as Leaf
+participant "Intermediate Entities" as IE
+participant "Trust Anchor" as TA
+
+Leaf -> Leaf: Fetch Leaf's Entity Configuration
+Leaf -> IE: Request Subordinate Statements\nusing `source_endpoint`
+IE -> Leaf: Return Subordinate Statements
+
+alt If Trust Chain is renewable
+    Leaf -> Leaf: Trust Chain Successfully Renewed
+else
+    Leaf -> Leaf: Initiate Classical Federation Discovery
+end
+
+Leaf -> Leaf: Validate Subordinate Statements
+Leaf -> Leaf: Check Trust Chain Expiry
+
+@enduml
+```
+Sequence Diagram x. This sequence diagram illustrates the streamlined process of renewing a trust chain through Fast Renewal. By directly fetching and validating the necessary subordinate statements and, if applicable, the trust anchor statement, entities can efficiently maintain their trust relationships within the federation. 
+
+This method significantly reduces the overhead and complexity involved in re-establishing trust chains, provided the conditions for its application are met.
+
+## 9. Federation Endpoints
+Details the various endpoints in the federation architecture, explaining their functions and how they support communication and interaction within the federation.
+
+## 10. Federation Errors
+This section addresses the common errors that may occur within the federation, providing guidance on identification, understanding, and resolution.
 
 ### Trust Chain
 
@@ -348,11 +514,7 @@ Imagine a chain of trust, like a relay race:
     - Finally, there's a statement issued by the Trust Anchor (the end of the race). This statement is either about the last Intermediate or the final entity (the Leaf Entity).
     - This chain always ends with the Entity Configuration of the Trust Anchor, like crossing the finish line, even though it might not always be shown in the details.
 
-## 9. Federation Endpoints
-Details the various endpoints in the federation architecture, explaining their functions and how they support communication and interaction within the federation.
 
-## 10. Federation Errors
-This section addresses the common errors that may occur within the federation, providing guidance on identification, understanding, and resolution.
 
 ## 11. Differences between OpenID Federation 1.0 and OpenID4RS
 Highlights the key differences and improvements of the OpenID4RS profile over the standard OpenID Federation 1.0, emphasizing enhancements tailored for the Research and Education ecosystem.
