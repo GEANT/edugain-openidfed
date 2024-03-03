@@ -528,7 +528,7 @@ The table below outlines the specialized endpoints required by entities with acc
 
 These specialized endpoints are essential for the operation and management of trust within the federation. They enable entities with accreditation power to efficiently perform their roles, ensuring that trust and compliance are maintained across the federation. By providing these endpoints, the federation supports a robust infrastructure for trust management, accreditation, and policy enforcement, which is crucial for the secure and seamless operation of the federation ecosystem.
 
-Below is an example of an decoded Entity Configuration, where the JWT header and payload are represented as JSON objects, that includes a metadata section with a `federation_entity` type. This example also illustrates how the previously discussed federation endpoints are represented within the configuration:
+Below is an example of an decoded Entity Configuration, where the JWT header and payload are represented as JSON objects, that includes a metadata section with a `federation_entity` type. This example also illustrates how the previously discussed federation endpoints are represented within the configuration, assuming that the entity is a TA or an Intermediate and also a Trust Mark Issuer:
 
 ````
 {
@@ -536,6 +536,7 @@ Below is an example of an decoded Entity Configuration, where the JWT header and
   "sub": "https://entity.example.com",
   "metadata": {
     "federation_entity": {
+      "federation_list_endpoint": "https://example-entity.com/federation/list",
       "federation_fetch_endpoint": "https://example-entity.com/federation/fetch",
       "federation_trust_mark_endpoint": "https://example-entity.com/federation/trust-mark",
       "federation_trust_mark_status_endpoint": "https://example-entity.com/federation/trust-mark-status",
