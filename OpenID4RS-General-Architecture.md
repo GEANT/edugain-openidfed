@@ -1,5 +1,6 @@
 # General Architecture of Trust, Authentication and Authorization Infrastructure for Research and Education
-This document defines the general architecture for trust and authorization infrastructure, designed to facilitate access to protected resources, including services and personal data. This document is developed by the Research and Scholarship community, even if it is drawed on advancements in SAML2 and OAuth 2.0 technologies, it aims to be technology-agnostic. It focuses on the key components and principles necessary for managing digital identities and authorizing entities across various domains and organizations.
+
+This document defines the general architecture for trust and authorization infrastructure, designed to facilitate access to protected resources, including services and personal data. This document is developed by the Research and Education community, even if it is drawed on advancements in SAML2 and OAuth 2.0 technologies, it aims to be technology-agnostic. It focuses on the key components and principles necessary for managing digital identities and authorizing entities across various domains and organizations.
 
 This document provides detailed requirements and design considerations offering a systematic approach to understanding complex trust relationships and authorization patterns, crafting an infrastructure capable of supporting and scaling these relationships efficiently.
 
@@ -11,8 +12,8 @@ The ultimate objective of this document is to equip stakeholders with a comprehe
 
 The architecture is designed around two core components:
 
-1. Trust: Involves the assessment and validation of entities' identities and their compliance with specific standards or regulations. This process includes organizations, natural or legal persons, services, or devices, and encompasses identity verification, compliance evaluation, accreditation, and the verification of compliance proofs. Trust establishes the foundation for determining an entity's eligibility to perform certain actions or fulfill specific roles within a regulated framework.
-2. Authorization: Focuses on the processes of authenticating entities and authorizing their access to protected resources or services.
+1. **Trust**: Involves the assessment and validation of entities' identities and their compliance with specific standards or regulations. This process includes organizations, natural or legal persons, services, or devices, and encompasses identity verification, compliance evaluation, accreditation, and the verification of compliance proofs. Trust establishes the foundation for determining an entity's eligibility to perform certain actions or fulfill specific roles within a regulated framework.
+2. **Authorization**: Focuses on the processes of authenticating entities and authorizing their access to protected resources or services. This process includes the issuance of tokens, access control, and the enforcement of policies that govern the use of resources.
 
 The document is organized into the following sections:
 
@@ -32,40 +33,36 @@ The document is organized into the following sections:
 This section defines key terms and acronyms used throughout the document.
 
 
-- Trust Model: Principles and guidelines defining how trust is established, maintained, and validated within the ecosystem, particularly concerning digital identities and entity authorization.
-- Infrastructure of Trust: The underlying physical and digital systems, protocols, and technologies that enable and support the establishment and management of trust among entities, in accordance with the Trust Model.
-- Trust Framework: Normative text that includes policies, administrative and accreditation protocols, and technologies designed to manage the trust infrastructure and the trust relationships.
-- Policy Classes: Sets of rules, behaviors, and procedures for managing and enforcing compliance within the ecosystem.
-- Trust Evaluation: The process of verifying and assessing the trustworthiness of entities, credentials, and the data exchanged.
-- Trust Establishment: The process of verifying adherence to agreed-upon standards and protocols between entities within the ecosystem.
-- Authorization Server: A server that issues tokens to clients after successfully authenticating an entity and obtaining authorization, facilitating access control.
-- Identity Provider (IdP): An entity that creates, maintains, and manages identity information for users and provides authentication services to relying parties within a digital ecosystem. The Identity Provider verifies the identity of a principal and asserts that identity to other parties, facilitating secure access and interactions.
-- User: An individual or entity that utilizes a system or service to perform actions or access resources. In the context of digital ecosystems, a user typically interacts with systems through authentication and authorization processes, often represented or managed by digital identities.
-- Resource Server: A server that hosts protected resources and is capable of accepting and responding to protected resource requests using access tokens.
-- Client: An application or entity making protected resource requests on behalf of the resource owner and with its authorization.
-- Relying Party: An entity that relies on the validation of assertions provided by another entity to establish a trust relationship or to authorize access.
-- Trust Mark: A symbol or indicator issued by a trusted authority that signifies an entity has met certain criteria of trustworthiness, compliance, or security standards. Trust marks serve as visible tokens of assurance in digital transactions, helping to establish confidence among parties in an online environment.
+| Term                   | Description                                                                                                                                                                                                                      |
+|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Trust Model**        | Principles and guidelines defining how trust is established, maintained, and validated within the ecosystem, particularly concerning digital identities and entity authorization.                                                |
+| **Infrastructure of Trust**| The underlying physical and digital systems, protocols, and technologies that enable and support the establishment and management of trust among entities, in accordance with the Trust Model.                                    |
+| **Trust Framework**    | Normative text that includes policies, administrative and accreditation protocols, and technologies designed to manage the trust infrastructure and the trust relationships.                                                      |
+| **Policy Classes**     | Sets of rules, behaviors, and procedures for managing and enforcing compliance within the ecosystem.                                                                                                                             |
+| **Trust Evaluation**   | The process of verifying and assessing the trustworthiness of entities, credentials, and the data exchanged.                                                                                                                     |
+| **Trust Establishment**| The process of verifying adherence to agreed-upon standards and protocols between entities within the ecosystem.                                                                                                                  |
+| **Authorization Server**| A server that issues tokens to clients after successfully authenticating an entity and obtaining authorization, facilitating access control.                                                                                      |
+| **Identity Provider (IdP)**| An entity that creates, maintains, and manages identity information for users and provides authentication services to relying parties within a digital ecosystem. The Identity Provider verifies the identity of a principal and asserts that identity to other parties, facilitating secure access and interactions.|
+| **User**               | An individual or entity that utilizes a system or service to perform actions or access resources. In the context of digital ecosystems, a user typically interacts with systems through authentication and authorization processes, often represented or managed by digital identities.|
+| **Resource Server**    | A server that hosts protected resources and is capable of accepting and responding to protected resource requests using access tokens.                                                                                            |
+| **Client**             | An application or entity making protected resource requests on behalf of the resource owner and with its authorization.                                                                                                           |
+| **Relying Party**      | An entity that relies on the validation of assertions provided by another entity to establish a trust relationship or to authorize access.                                                                                        |
+| **Trust Mark**         | A symbol or indicator issued by a trusted authority that signifies an entity has met certain criteria of trustworthiness, compliance, or security standards. Trust marks serve as visible tokens of assurance in digital transactions, helping to establish confidence among parties in an online environment.|
 
 ### 2.2 Acronyms
 
-- TM: Trust Mark
-- TF: Trust Framework
-- AS: Authorization Server
-- RS: Resource Server
-- RP: Relying Party
-- IDP: Identity Provider
+| Acronym | Full Form               |
+|---------|-------------------------|
+| TM      | Trust Mark              |
+| TF      | Trust Framework         |
+| AS      | Authorization Server    |
+| RS      | Resource Server         |
+| RP      | Relying Party           |
+| IDP     | Identity Provider       |
 
 
 ## Background and Problem Statement
-- TM: Trust Mark
-- TF: Trust Framework
-- AS: Authorization Server
-- RS: Resource Server
-- RP: Relying Party
-- IDP: Identity Provider
 
-
-## Background and Problem Statement
 This section provides context, including a brief explanation of the Research and Education
 ecosystem, the need for a trust model, and any relevant existing
 systems or protocols.
@@ -124,10 +121,25 @@ This section explains the basic principles behind the trust model, such
 as the concept of transitive trust and the role of a trusted third party.
 
 ### Roles
+
+TBD.
+
 ### Technical Components
+
+TBD.
+
 ### Accreditation
+
+TBD.
+
 ### Interaction between Components
+
+TBD.
+
 ### Trust Relationship Management Over Time
+
+TBD.
+
 
 
 #### Trust Chain
@@ -137,7 +149,7 @@ permissions between entities. This chain is built  through a discovery
 process. This section explains the concept of the Trust Chain, how it is
 established and maintained, and its role in the trust model.
 
-##### Concept of the Trust Chain
+
 ##### Concept of the Trust Chain
 
 At a high level, the Trust Chain operates on the principle of transitive trust,
@@ -161,11 +173,23 @@ with every other organization individually.
 
 
 ### Establishment and Maintenance of the Trust Chain
-### Role of the Trust Chain in the Trust Model
-### Establishment and Maintenance of the Trust Chain
+
+TBD.
+
 ### Role of the Trust Chain in the Trust Model
 
-### Trust Marks
+TBD.
+
+
+### Establishment and Maintenance of the Trust Chain
+
+TBD.
+
+
+### Role of the Trust Chain in the Trust Model
+
+TBD.
+
 ### Trust Marks
 This section explains the concept of Trust Marks, how they are
 defined and used, and their role in the trust model.
@@ -200,8 +224,17 @@ trust model, such as technical requirements, potential challenges, and
 suggested solutions.
 
 ### 9.1 Technical Requirements
+
+TBD.
+
 ### 9.2 Potential Challenges
+
+TBD.
+
 ### 9.3 Suggested Solutions
+
+TBD.
+
 
 ## 10. Conclusion
 This section summarizes the document, reiterates the benefits of the
