@@ -8,15 +8,7 @@ according to the requirements, properties and components defined in the document
 [General Architecture](OpenID4RS-General-Architecture.md).
 
 In this model, trust is established and managed through a federated system,
-leveraging the OpenID Federation protocol. This protocol enables secure and
-seamless communication between various independent entities, such as
-research institutions, libraries, publishers, and data repositories.
-
-According to the model defined within this document, the 
-trust infrastructure is designed to facilitate trust and interoperability
-between these entities, allowing them to share resources and collaborate
-effectively. It does so by defining and enforcing policies for
-identity verification, access control, and data protection.
+leveraging the OpenID Federation protocol. 
 
 At the heart of this architecture is the concept of a trust chain,
 a series of signed artifacts that represent the relationships and
@@ -104,9 +96,9 @@ Additionally, the OpenID Federation framework facilitates the establishment of t
 ```
 Trust Anchor Entity Configuration (what TA says about itself)
     |
-    + TA Subordinate Statement  (what TA says about Marco) -- Marco Entity Configuration
+    + TA Subordinate Statement (what TA says about Marco) -- Marco Entity Configuration
     |
-    + TA Subordinate Statement  (what TA says about Alice)-- Alice (Intermediate)
+    + TA Subordinate Statement (what TA says about Alice) -- Alice (Intermediate)
          |
          + Alice Subordinate Statement  (what Alice says about Carlo) -- Carlo (Relying Party)
 ```
@@ -179,7 +171,7 @@ Below is a simplified, non-normative example of an Entity Configuration, where t
             "federation_resolve_endpoint": "https://rp.example.edu/resolve",
             "organization_name": "EDU OIDC Service Provider",
             "homepage_uri": "https://rp.example.edu",
-            "policy_uri": "https://rp.example.it/policy",
+            "policy_uri": "https://rp.example.edu/policy",
             "logo_uri": "https://rp.example.edu/static/logo.svg",
             "contacts": [
                "tech@example.edu"
@@ -192,9 +184,7 @@ Below is a simplified, non-normative example of an Entity Configuration, where t
             "trust_mark": "eyJh …"
         }
     ],
-    "authority_hints": [
-        "https://accreditation-body.example.edu"
-    ]
+    "authority_hints": ["https://accreditation-body.example.edu"]
 }
 ```
 
@@ -224,6 +214,21 @@ In addition to the Entity Configuration Common Parameters, Intermediates and Lea
 | `authority_hints`  | Array of URLs. Contains a list of URLs of the superior Entities that may issue a Subordinate Statement related to this subject. |
 | `trust_marks`      | A JSON Array containing the Trust Marks.    |
 
+
+### Federation Entity Metadata
+
+The **federation_entity** metadata section within an Entity Configuration provides essential information about the federation entity, including its operational endpoints and organizational details. Below is a documentation of each element within the federation_entity metadata, presented in a markdown table format.
+
+| Element | Description |
+|----------------------------|-----------------------------------------------------------------------------------------------|
+| **federation_resolve_endpoint** | The endpoint where the cached federation resolution requests can be sent to resolve entity statements and trust chains. See the dedicated section below. |
+| **organization_name** | The official name of the organization that operates the federation entity. |
+| **homepage_uri** | The URL of the organization's homepage, providing more information about the entity. |
+| **policy_uri** | The URL where the federation entity's policy documents can be found. |
+| **logo_uri** | The URL of an image file representing the organization's logo. |
+| **contacts** | A list of email addresses or other contact information for reaching out to the organization. |
+
+This metadata give the administative informations, federation role and common capabilities of the entity within the federated identity ecosystem, according to the common federation role types. 
 
 ### Entity Configurations for Multiple Federations
 
@@ -262,7 +267,7 @@ Below is a simplified, non-normative example of a Subordinate Statement, where t
 .
 {
   "iss": "https://feide.no",
-  "sub": "https://rp.example.edu",
+  "sub": "https://leaf.example.edu",
   "iat": 1516239022,
   "exp": 1516298022,
   "jwks": {
@@ -277,11 +282,11 @@ Below is a simplified, non-normative example of a Subordinate Statement, where t
   },
   "metadata": {
     "openid_provider": {
-      "issuer": "https://ntnu.no",
-      "organization_name": "NTNU"
+      "issuer": "https://https://leaf.example.edu",
+      "organization_name": "Example OP"
     },
     "oauth_client": {
-      "organization_name": "NTNU"
+      "organization_name": "Example RP"
     }
   },
   "metadata_policy": {
@@ -290,7 +295,7 @@ Below is a simplified, non-normative example of a Subordinate Statement, where t
         "subset_of": ["RS256", "RS384", "RS512"]
       },
       "op_policy_uri": {
-        "regexp": "^https://[\\w-]+\\.example\\.com/[\\w-]+\\.html"
+        "regexp": "^https://[\\w-]+\\.example\\.edu/[\\w-]+\\.html"
       }
     },
     "oauth_client": {
@@ -363,9 +368,9 @@ Finally, metadata policies specified in the Subordinate Statements are applied. 
 
 ### How the RP discovers the OPs
 
-In the OpenID Federation process, a Relying Party (RP) embarks on a systematic journey to discover and validate Identity Providers (OPs) within the federation. This journey begins at the Trust Anchor, where the RP uses a listing endpoint to filter through all intermediates and OPs. For each entity identified, the RP fetches Subordinate Statements to trace the trust chain, continuing this process until it reaches the leaf entities, which are the OPs themselves. At this stage, the RP fetches the Entity Configuration of each OP.
+In the OpenID Federation process, a Relying Party (RP) embarks on a systematic journey to discover and validate Identity Providers (OPs) within the federation. This journey begins at the Trust Anchor, where the RP uses a listing endpoint to filter through all intermediates and OPs. For each entity identified, the RP fetches Subordinate Statements to trace the trust chain, continuing this process until it reaches the leaf entities, which are the OPs. At this stage, the RP fetches the Entity Configuration of each OP.
 
-This meticulous process allows the RP to navigate the entire federation, ensuring that it collects and validates the trust chain for each OP. The culmination of this process is the creation of the Trust chains related to all the OPs and the inclusion of these into a discovery page. This page includes each OP, enriched with validated information and logos obtained through their respective trust chains, thus providing a comprehensive and secure overview of available Identity Providers within the federation.
+This process allows the RP to navigate the entire federation, ensuring that it collects and validates the trust chain for each OP. The culmination of this process is the creation of the Trust chains related to all the OPs and the inclusion of these into a discovery page. This page includes each OP, enriched with validated information and logos obtained through their respective trust chains, thus providing a comprehensive and secure overview of available Identity Providers within the federation.
 
 ```
 @startuml
@@ -388,17 +393,17 @@ end
 
 @enduml
 ```
-Sequence Diagram X. [This diagram](http://www.plantuml.com/plantuml/svg/VP6nQiCm48PtFyMHfSbGkdSe2MaB6Og54pfrKQsBVI2VWdHEyTlth7HGGgW76UJl_twTl4vYeuo3hqxwffPEbWKM3Vg9k0EZczC2R8B6N1E7E2Q13RTzY1auRAw17Gl60HrPmGpiFcu0Xoma4vWOpkGmmh8sgupMfgeQ0uylQds6TvIs1qz9vYE58rZleTGdiEmqb2eVmWcE8G9QZPHC1VfafnxaZdC_VeVeY6VTqwn2TZUwsXIIscH9tdv8y7OPPHluIDqOhL3WkvL53-n5rm5PbccLQye67VtVJ0wK4wgaI3Twla_hoSsXoy_QzfQuw2d87RT-TAWVG95NIcquOvp0s0w_-8UaX_EVp2cXZY6Fc2_UXoxawwhMkew3_mK0) shows how a Relying Party navigates the federation, collecting and validating the trust chain for each Identity Provider (OP), and then creates a discovery page including each OP using the information and logo obtained through their trust chain.
+**Sequence Diagram x.** [This diagram](http://www.plantuml.com/plantuml/svg/VP6nQiCm48PtFyMHfSbGkdSe2MaB6Og54pfrKQsBVI2VWdHEyTlth7HGGgW76UJl_twTl4vYeuo3hqxwffPEbWKM3Vg9k0EZczC2R8B6N1E7E2Q13RTzY1auRAw17Gl60HrPmGpiFcu0Xoma4vWOpkGmmh8sgupMfgeQ0uylQds6TvIs1qz9vYE58rZleTGdiEmqb2eVmWcE8G9QZPHC1VfafnxaZdC_VeVeY6VTqwn2TZUwsXIIscH9tdv8y7OPPHluIDqOhL3WkvL53-n5rm5PbccLQye67VtVJ0wK4wgaI3Twla_hoSsXoy_QzfQuw2d87RT-TAWVG95NIcquOvp0s0w_-8UaX_EVp2cXZY6Fc2_UXoxawwhMkew3_mK0) shows how a Relying Party navigates the federation, collecting and validating the trust chain for each Identity Provider (OP), and then creates a discovery page including each OP using the information and logo obtained through their trust chain.
 
 This comprehensive process ensures that trust within the federation is not only declared but also rigorously verified and enforced, allowing entities within the federation to confidently rely on the authenticity and integrity of each other's claims.
 
 ### How the AS/OP registers a new Client/RP
 
-The process of an Authorization Server (AS) or OpenID Provider (OP) registering a new Client or Relying Party (RP) often involves automatic client registration. This process allows clients to be dynamically registered with the AS/OP without manual intervention.
+The process of an Authorization Server (AS) or OpenID Provider (OP) registering a new Client or Relying Party (RP) often involves automatic client registration. This process allows clients to be dynamically registered with the AS/OP without manual intervention. Below the steps an AS/OP follows to register a new Client/RP:
 
-1. Client Request: The RP sends a request to the AS/OP. This request is a protocol specific request providing only the entity ID in the form of HTTPs URL.
-2. Validation: The AS/OP discovers the trust with the Client usinf the federation discovery process.
-3. Registration Confirmation: If the Trust Chains is successful, the AS/OP accepts the request.
+1. **Client Request**: The RP sends a request to the AS/OP. This request is a protocol specific request providing at least the entity ID in the form of HTTPs URL.
+2. **Validation**: The AS/OP discovers the trust with the Client usinf the federation discovery process.
+3. **Registration Confirmation**: If the Trust Chains is successful, the AS/OP accepts the request.
 
 ```
 @startuml
@@ -406,7 +411,7 @@ participant "Relying Party (RP)" as RP
 participant "Authorization Server/OpenID Provider (AS/OP)" as ASOP
 
 RP -> ASOP: Send a request\nwith RP's HTTP URL entity id
-ASOP -> ASOP: Validate the trust (Federation Discovery Process)
+ASOP -> ASOP: Validate the trust (Federation Discovery Process) and registers the RP
 alt If validation is successful
     ASOP -> RP: Return the response
 else If validation fails
@@ -414,12 +419,15 @@ else If validation fails
 end
 @enduml
 ```
-Sequence Diagram x. This [sequence diagram](http://www.plantuml.com/plantuml/svg/TP3FIpin4CNl-Ik6NhxjuKll7gI58XQ4XhHwyX9sPzs1cAmpavNrhtUsLQY2WVmWUP_t7jc8HjRwcjnWEpKqnAom29WcoY_WxNA2PV2h1KI1u7_AjbNxmlGHbKg68_A8l3uCcFSxy5n6Qf5XkJsk3ry6s-F1EnSy_ByzdsyCoYr4O7ohAFgStqbxo_adS7ywUNWC3u1PoLfGwmovGfzYeZOgWlOskOh2yWujyb9dHz8KApJDLHeKMRcO5FOTZ1Tm5f60r6P-xMfoOECx8rX2GAsSp_wCCfGiw309_ZBf8YNv2qRcmbTuRjt65lloJm00) illustrates the automatic client registration process.
+**Sequence Diagram x.** This [sequence diagram](http://www.plantuml.com/plantuml/svg/TP3FIpin4CNl-Ik6NhxjuKll7gI58XQ4XhHwyX9sPzs1cAmpavNrhtUsLQY2WVmWUP_t7jc8HjRwcjnWEpKqnAom29WcoY_WxNA2PV2h1KI1u7_AjbNxmlGHbKg68_A8l3uCcFSxy5n6Qf5XkJsk3ry6s-F1EnSy_ByzdsyCoYr4O7ohAFgStqbxo_adS7ywUNWC3u1PoLfGwmovGfzYeZOgWlOskOh2yWujyb9dHz8KApJDLHeKMRcO5FOTZ1Tm5f60r6P-xMfoOECx8rX2GAsSp_wCCfGiw309_ZBf8YNv2qRcmbTuRjt65lloJm00) illustrates the automatic client registration process.
 
 
 #### Federation Discovery Process
 
 The sequence diagram starts with the OP fetching the RP's entity configuration to identify authority hints, which are pointers to entities that can issue statements about the RP. The OP then follows these hints, collecting subordinate statements from intermediate entities and validating each one. The process continues until the OP reaches the Trust Anchor, whose statement is also fetched and validated. Finally, the OP compiles the validated trust chain and checks for its expiry. If the trust chain is valid and unexpired, the OP proceeds with the federation process; otherwise, the process is aborted with an error.
+
+Note: While this section exemplifies the journey of discovery from the perspective of an OpenID Provider (OP), it's important to understand that this approach can be applied to every kind of entity type within the federation. 
+
 
 ```
 @startuml
@@ -435,14 +443,14 @@ OP -> RP: Extract Authority Hints from RP's Configuration
 RP -> OP: Provide Authority Hints
 
 loop for each Authority Hint
-    OP -> IE: Fetch Entity Configuration
+    OP -> IE: Fetch Entity Configuration -> get federation_fetch_api URL
     IE -> OP: Fetch Subordinate Statement
     OP -> OP: Validate the previous statement\nusing the Federation Entity Keys\nprovided in the Subordinate Statement
 end
 
 OP -> OP: Validate Trust Chain
 
-alt If Trust Chain is Valid and Unexpired
+alt If Trust Chain is valid and unexpired
     OP -> OP: Proceed with Federation Process
 else
     OP -> OP: Abort Process with Error
@@ -453,7 +461,7 @@ OP -> OP: Derive RP's final metadata
 
 @enduml
 ```
-Sequence Diagram x. The OP building the Trust chain related to an RP.
+**Sequence Diagram x.** The [sequence diagram](https://www.plantuml.com/plantuml/uml/TPB1Qjmm48RlUeeXbwQ7la0F9KkofQO56oVjAH1KQxmUa4TYDDfctxvoXC4n6ryiPhxv_tzitIMredds9fOt3HGjAzoq4RbvW4x2cHmAtBRTvnkm2ThkFTYZln2Ve2l52zps5OD-XpMiA3CwiefmP2KbJ6zaStnFFabE2WSUfY1lmDF1cBQ3Bz-Aw5VuZZfCvVGfLPaBt0SUwPJ5AWKs_HlP5h97pSBNgOtWyLN53iKnQt5Sq1_4cc2KC5UV3mpMZxEVDCQ7464C0cY7QTSsK9xgtXpNTQvbN8WJAepei5PUnWL-iP7WT_zh4IeIDSmgz9Z_1d74LX4UrIhEkB6iv1_hoIs0JWXHy4mX9qWh_Smv4P-MRX5TlTU8F_6IdZdMpHqGBzm7jiZEc2k-zG_VJvRO6EiLcd5R0qfmNbYmx20plaOITBijEWa3eeD_fDCcPwsdPD0dt8qSIaXTWJfu50co3tg8qHCcw8AdeHmshGSKEcEz5YEnzJ2ZMcVL6dDNPFBi_mC0) about an OP building the Trust chain related to an RP.
 
 
 ### How checks a Lead againt any revocations
@@ -495,15 +503,67 @@ Leaf -> Leaf: Check Trust Chain Expiry
 
 @enduml
 ```
-Sequence Diagram x. This sequence diagram illustrates the streamlined process of renewing a trust chain through Fast Renewal. By directly fetching and validating the necessary subordinate statements and, if applicable, the trust anchor statement, entities can efficiently maintain their trust relationships within the federation. 
+Sequence Diagram x. This [sequence diagram](http://www.plantuml.com/plantuml/svg/TP11ImCn48Nl-HL3B-f1lFSWBUiM5WJBjdWIR9hCTWUpapKpKVlltMv1MR4v967uvirxin2rINCNJ3-yvAYth31xHDl0TRs-UrhVpC0Ad0fJf6B5rA4dgmWbAocXZ6nLJibjogAmPDV6D0BRfJ7ZXDlxKNWEArJNZlyhEOiTeOZSq24dgnJvXw_AETJudb4KDdaVaoS-ETZeS7V8AY-SXVW0EuavENn5zdqarfsfoj-9DMfEV47261iKgWRErelM4WC996JyjFk01eOpYJ11Dzav56bo24UeJqte3GRvhwzYqd67HR0Yv6o05NeynuO74XS_C1qDil-xjMSRo5l5IoccTD6YUvlOBBzw6fGNo3vtuHi0) illustrates the streamlined process of renewing a trust chain through Fast Renewal. By directly fetching and validating the necessary subordinate statements and, if applicable, the trust anchor statement, entities can efficiently maintain their trust relationships within the federation. 
 
 This method significantly reduces the overhead and complexity involved in re-establishing trust chains, provided the conditions for its application are met.
 
 ## 9. Federation Endpoints
-Details the various endpoints in the federation architecture, explaining their functions and how they support communication and interaction within the federation.
 
-## 10. Federation Errors
-This section addresses the common errors that may occur within the federation, providing guidance on identification, understanding, and resolution.
+In the context of OpenID Federation, the operation of trust is central to the interaction between various entities within the federation. Each entity, by virtue of participating in the federation, acts as a federation entity involved in trust evaluation processes. This encompasses a wide range of activities from verifying the authenticity of other entities to ensuring compliance with federation policies.
+
+However, within this ecosystem, certain entities such as the Trust Anchor, its Intermediates, and Trust Mark Issuers play a pivotal role in the accreditation process. These entities have the authority to accredit or endorse other entities within the federation, thereby holding a significant position in the trust hierarchy. To facilitate their operations and interactions within the federation, these entities are required to expose specialized endpoints. These endpoints are designed to support the unique functions these entities perform, ranging from issuing trust marks to validating entity credentials.
+
+The table below outlines the specialized endpoints required by entities with accreditation power within the OpenID Federation, where each name represent the key name within the `federation_entity` JSON Object, contained in the Entity Configuration `metadata` parameter. Please keep in mind that the Entity Configuration is available at the endpoint `.well-known/openid-federation`, since the `.well-known/openid-federation` is a mandatory endpoint required for all entities within the OpenID Federation. This `.well-known/openid-federation` endpoint serves as a foundational element for federation operations such as the discovery process, ensuring that Entity Configurations are discoverable and accessible in a standardized manner and is provided in a well-known location.
+
+
+| Name | Entity Type | Description |
+|-------------------------------|----------------|-----------------------------------------------------------------------------|
+| **federation_list_endpoint** | Trust Anchor, Intermediates | Endpoint for publishing the list of accredited entities (Subordinates) in the form of JSON Array.  |
+| **federation_fetch_endpoint** | Trust Anchor, Intermediates | Endpoint for retrieving accreditation information and updates for a specific subject, in the form Subordinate Statement. |
+| **federation_trust_mark_endpoint** | Trust Mark Issuers | Endpoint for issuing and managing Trust Marks to accredited entities. |
+| **federation_trust_mark_status_endpoint** | Trust Mark Issuers | Endpoint for validation the non revocation of a trust mark issued for a particular subject. |
+| **federation_trust_mark_list_endpoint** | Trust Mark Issuers | Endpoint for publishing the list of trust marked entities about a particular Trust Mark, the result is a JSON Array. |
+| **federation_historical_keys_endpoint** | Trust Anchor | Endpoint for publishing the signed status of historical cryptographic public keys that are no longer in use, including details on whether they are expired or revoked, along with the reasons for their revocation. |
+| **federation_resolve_endpoint** | All entities | Endpoint for publishing the resolved metadata and trust chain for entities with whom trust has been established and maintained over time. | 
+
+These specialized endpoints are essential for the operation and management of trust within the federation. They enable entities with accreditation power to efficiently perform their roles, ensuring that trust and compliance are maintained across the federation. By providing these endpoints, the federation supports a robust infrastructure for trust management, accreditation, and policy enforcement, which is crucial for the secure and seamless operation of the federation ecosystem.
+
+Below is an example of an decoded Entity Configuration, where the JWT header and payload are represented as JSON objects, that includes a metadata section with a `federation_entity` type. This example also illustrates how the previously discussed federation endpoints are represented within the configuration:
+
+````
+{
+  "iss": "https://entity.example.com",
+  "sub": "https://entity.example.com",
+  "metadata": {
+    "federation_entity": {
+      "federation_fetch_endpoint": "https://example-entity.com/federation/fetch",
+      "federation_trust_mark_endpoint": "https://example-entity.com/federation/trust-mark",
+      "federation_trust_mark_status_endpoint": "https://example-entity.com/federation/trust-mark-status",
+      "federation_trust_mark_list_endpoint": "https://example-entity.com/federation/trust-mark-list",
+      "federation_historical_keys_endpoint": "https://example-entity.com/federation/historical-keys",
+      "federation_resolve_endpoint": "https://example-entity.com/federation/resolve"
+    }
+  },
+  "jwks": {
+    "keys": [
+      {
+        "kty": "RSA",
+        "use": "sig",
+        "kid": "1",
+        "n": "0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEPCRfceaC7mkxr8v...",
+        "e": "AQAB"
+      }
+    ]
+  },
+  "authority_hints": ["https://trust-anchor.example.com", "https://intermediate.other-federation.example.org"],
+  "iat": 1600000000,
+  "exp": 1631536000
+}
+````
+
+## 10. Federation Endpoints Errors
+
+For each federation endpoint, the specific errors are defined within the federation specifications. These detailed definitions ensure that implementers can accurately handle errors and provide consistent responses across different federation entities.
 
 ### Trust Chain
 
@@ -514,16 +574,28 @@ Imagine a chain of trust, like a relay race:
     - Finally, there's a statement issued by the Trust Anchor (the end of the race). This statement is either about the last Intermediate or the final entity (the Leaf Entity).
     - This chain always ends with the Entity Configuration of the Trust Anchor, like crossing the finish line, even though it might not always be shown in the details.
 
+Below is an example of a Trust Chain, represented as a JSON Array. It contains entity statements beginning with the Entity Configuration (at position 0) about the subject of the trust evaluation. It includes subordinate statements and concludes with the Trust Anchor's Entity Configuration. Each statement is linked to its sibling statement by the `sub`, `iss`, `authority_hints`, `jwks`, and the cryptographic signature, which can be verified using the provided JWK.
 
+```
+[
+      "eyJhbGciOiJSUzI1NiIsImtpZCI6ImMzWnlUR1ZTY0RNeFowd3dka1pQVVZZMFMyRkVRMnBYVjE4dFVFd3ROVlZIV21WVVEwTmlTM2xVU1EiLCJ0eXAiOiJlbnRpdHktc3RhdGVtZW50K2p3dCJ9.eyJleHAiOjE2OTY1ODMzMzQsImlhdCI6MTY5NjI4MzMzNCwiaXNzIjoiaHR0cHM6Ly9jcmVkZW50aWFsX2lzc3Vlci5leGFtcGxlLm9yZyIsInN1YiI6Imh0dHBzOi8vY3JlZGVudGlhbF9pc3N1ZXIuZXhhbXBsZS5vcmciLCJqd2tzIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImMzWnlUR1ZTY0RNeFowd3dka1pQVVZZMFMyRkVRMnBYVjE4dFVFd3ROVlZIV21WVVEwTmlTM2xVU1EiLCJlIjoiQVFBQiIsIm4iOiIwNmZfWUd0ejhyY29WQWZSUnlNbldYbmNteVRFc3lmUHh6OVlXdlRjT0c1WGtIQ244c1ZCa3hjVENleDFvdWtxZVlVLU0xcUE3ZXE4RmNMRDJHUEVxVHNITDBRNVNMLXVYSUlYd2hSSmx3bWpRNWh1dEdnV3ptMUVOc0g0SENyV3EwNmJGLTRpUFFpUVUxRm1kVXdxVTI5clVqTnlmeUlLTmd1cFJPZ2p1Y3ozcWYtWE1ZdU5SRnFFcld0b3N0dHE1bm4zdFlSNWh5UWpVWnVwNHZPUnFhUUROMUxiVEk5d2cxRzlxRjlxQUxDcGk0WlNmclJyWEphZDUtamwtS1VOdFM1cG5hbGlHRFF2a3AxTnJCaXBJT19haTFvR21BMTlHd1E4VGpNVkNFc3ZXUXpKcTVrd0N1eHVKZTlBODE1RzRuU2I1WFp1RXZ6anhNU1M4b3hpLVEifV19LCJtZXRhZGF0YSI6eyJvcGVuaWRfY3JlZGVudGlhbF9pc3N1ZXIiOnsiandrcyI6eyJrZXlzIjpbeyJrdHkiOiJSU0EiLCJraWQiOiJSMlJ6UlhBMFJWQnlkekZPVkcxZmRXUlRNVFozWVRSbU5uRTFWM0ZmTUUxb01VWkxla2xpWTFOWU9BIiwiZSI6IkFRQUIiLCJuIjoiNUhfWGg3eGdEV1R4UVZiSnFtT0d1cm9rRThrcjJlMUtnTVdjWU9BNzRPXzFQWGQydWdqeUlxOXQxbVZQU3V3eC10eVNrMlBLcGpwLS1XckhuM0E0VUtKa3VSMTF6aG1kTEJzVThUT0JCdTVNWjhhdER1amZSd0lMWGRLc0VYa2x2YUI2UExUNHpkWm9kZ0NzMDVLeTJlNXNiNXo2X0NpRHFnVVZuV1BtSkxNa2dwQnRaLWtNZF9sYjlTb29abGxmVUdsVGtzYXVKMl9nVlEtVnBGVU1YWWpvSmpOeDk3ZXVrYVluUkVvQ0MzVGFfLThiY1Jvc2x4MnhySWJ1X1VHVnFpcGVOM05QLW1lZmY5VlRaV1lNM2dtb2x3dXBuTUNYWGlpa2NSNVVTTFZnMGVfZ3o2T2ZvUlZHS0FXSXBSUkxUejJhaXF1a1ZIWmRaWDl0Tm16MG13In1dfX0sImZlZGVyYXRpb25fZW50aXR5Ijp7Im9yZ2FuaXphdGlvbl9uYW1lIjoiT3BlbklEIENyZWRlbnRpYWwgSXNzdWVyIGV4YW1wbGUiLCJob21lcGFnZV91cmkiOiJodHRwczovL2NyZWRlbnRpYWxfaXNzdWVyLmV4YW1wbGUub3JnL2hvbWUiLCJwb2xpY3lfdXJpIjoiaHR0cHM6Ly9jcmVkZW50aWFsX2lzc3Vlci5leGFtcGxlLm9yZy9wb2xpY3kiLCJsb2dvX3VyaSI6Imh0dHBzOi8vY3JlZGVudGlhbF9pc3N1ZXIuZXhhbXBsZS5vcmcvc3RhdGljL2xvZ28uc3ZnIiwiY29udGFjdHMiOlsidGVjaEBjcmVkZW50aWFsX2lzc3Vlci5leGFtcGxlLm9yZyJdfX0sImF1dGhvcml0eV9oaW50cyI6WyJodHRwczovL2ludGVybWVkaWF0ZS5laWRhcy5leGFtcGxlLm9yZyJdfQ.WM0dOdLOhC9UTRi_y6lwwu6PmUWv1wc5f8MhKP2qz6b1haa-eyf4Y60iZ2SDeFeg105wHwPSKN8AfRoNyqubOGZMAFmP-sYBeqZatNsGNWjFEHzI9dJwx1oBab5_TDoULarpKSdvuub4NBOBTKFUSDffBG6jzlaK5JiQzMR30-jqSt9qPPWrJepyLQvyFxmvn94OiNQQwJ0oYB1MecJ7r8gmQMCAH4LixD6amKQoCuN0UeN7iEHTs3z_8ZUDihQ7BHf0dtwDCmG_G7xvaNkLPkG6cP2e2-l5kcYbNaUaK0IsX2yB0BkoQOOHlT-_M2TC2Zzg6Nmmw8WpTeraMrSkIQ",
+      "eyJhbGciOiJSUzI1NiIsImtpZCI6IlpsSndObTQ1VDJsVWNYbEhUR2cxWldobGJsZGpVV2xsY21RdFNVbFFXWHBIUzFKRVEwOHlUV1Z2TkEiLCJ0eXAiOiJlbnRpdHktc3RhdGVtZW50K2p3dCJ9.eyJleHAiOjE2OTY1ODMzMzQsImlhdCI6MTY5NjI4MzMzNCwiaXNzIjoiaHR0cHM6Ly9pbnRlcm1lZGlhdGUuZWlkYXMuZXhhbXBsZS5vcmciLCJzdWIiOiJodHRwczovL2NyZWRlbnRpYWxfaXNzdWVyLmV4YW1wbGUub3JnIiwiandrcyI6eyJrZXlzIjpbeyJrdHkiOiJSU0EiLCJraWQiOiJjM1p5VEdWU2NETXhaMHd3ZGtaUFVWWTBTMkZFUTJwWFYxOHRVRXd0TlZWSFdtVlVRME5pUzNsVVNRIiwiZSI6IkFRQUIiLCJuIjoiMDZmX1lHdHo4cmNvVkFmUlJ5TW5XWG5jbXlURXN5ZlB4ejlZV3ZUY09HNVhrSENuOHNWQmt4Y1RDZXgxb3VrcWVZVS1NMXFBN2VxOEZjTEQyR1BFcVRzSEwwUTVTTC11WElJWHdoUkpsd21qUTVodXRHZ1d6bTFFTnNINEhDcldxMDZiRi00aVBRaVFVMUZtZFV3cVUyOXJVak55ZnlJS05ndXBST2dqdWN6M3FmLVhNWXVOUkZxRXJXdG9zdHRxNW5uM3RZUjVoeVFqVVp1cDR2T1JxYVFETjFMYlRJOXdnMUc5cUY5cUFMQ3BpNFpTZnJSclhKYWQ1LWpsLUtVTnRTNXBuYWxpR0RRdmtwMU5yQmlwSU9fYWkxb0dtQTE5R3dROFRqTVZDRXN2V1F6SnE1a3dDdXh1SmU5QTgxNUc0blNiNVhadUV2emp4TVNTOG94aS1RIn1dfX0.GxUAOCfVHTyBvJzq9BIV76fX-bRqIVcL-Y36B8NLO17lE0rkfDQQGUh-Vh1JmF_MF3Q4QhXjW-agXoKST3q9x5nDoYHTleQ-10Lw9qiU9I6K8mn1JMNXahzNaX_MLOA7R3_O0-HhxtARIEKpiGQTjup_f5PyqBLrwcERxhnbg0YrpgsvVQHC1SUgXiMtKxMZDWLUtk7q8YaNNhJ4nuEV2M1ZWcEVFloWYKWBJbJvmZ9jqsop6svMDOqusih3sNGWKZ9XmPqtUeGR8o1vsKsOk0WKVnEMH9ESGu54pUJahX05jd4UmTPOzfRJ61k9-_te6xNZUwJqtU9wJ--IrHz7ig",
+      "eyJhbGciOiJSUzI1NiIsImtpZCI6IlpXRlRRbWhmVFdaSVRuRlRZM0ZTV2pKdU5HMWZWV05hZWxkNmNtUjFRa0pEYlhaWlRYQm1hM1JWUVEiLCJ0eXAiOiJlbnRpdHktc3RhdGVtZW50K2p3dCJ9.eyJleHAiOjE2OTY1ODMzMzQsImlhdCI6MTY5NjI4MzMzNCwiaXNzIjoiaHR0cHM6Ly90cnVzdC1hbmNob3IuZXhhbXBsZS5vcmciLCJzdWIiOiJodHRwczovL2ludGVybWVkaWF0ZS5laWRhcy5leGFtcGxlLm9yZyIsImp3a3MiOnsia2V5cyI6W3sia3R5IjoiUlNBIiwia2lkIjoiWmxKd05tNDVUMmxVY1hsSFRHZzFaV2hsYmxkalVXbGxjbVF0U1VsUVdYcEhTMUpFUTA4eVRXVnZOQSIsImUiOiJBUUFCIiwibiI6ImtSQUlzLVRBblF6T29lc195RW9oaDNUeGlaWFlPRC1xekI2T25JalZCaVI0WFNGbkw4djhRQ0IxamJiSlZTQ1hBZmdObTlBZjdVRDNBX0E2T1pQOUtacldSUk00NEp0TVAzZmxVSU5CQ2xzNFBrdVd2RklmWEtaaWVUNGhBMzNYdUlTSndqT2NlNnRrbUZTUl9wQmI3S0JHbnB4d3dnRlJjeUM2RU1VQWtWUGdQRl9mbXM3NEEyTF83TGVaNzh2X053VUhsY2VxVHB1OUx6VTRuTTd1RTZQY0JPSmJweXI2SFFuUTR1VHN6WThsWHVmT3pHZ2IzVXNDNmRnQWVVVERIZlFROE4xYXV2bkJUNmR0SHNHNWMxS2NCT2QzLVp6ZTZ5WVE5c2JLUlUtWVoydDZKdUJIbS1xLTVOamxiRWVwNDAwbFgxSXlKdG9Tc3F0d3lCX1djdyJ9XX19.CvBvN0aG-r13UG4uITH72tC5CbAG0rT4qYQ5wwHOtGE021etZFQd40RFnQT5e-Gy_Y8Wiin-Zmc1hWW2rVyZ1RRInjYGUt26QI6ujR-5w9Y_LHVp-6RzYEF0lg9otpAyszQE4hf5qBZYAj8t39FvCYWTYVci6mtpovJQ380ha8I4QL__fZtEgDLQ-7VKS58nN1DOVdcIICMMfxpDR81bkY5i5Qxcy7AaZTN6xxE2SlCO-pKKub0jBUtnug20-BL2YgcPhLFOYWfj2cuyapOA9Omwu6CPhmZHgsL1P2oK_f4jA9JxNDYcV0losDbD86r8Wg3anM2lVM5BTHkiUr2grg",
+      "eyJhbGciOiJSUzI1NiIsImtpZCI6IlpXRlRRbWhmVFdaSVRuRlRZM0ZTV2pKdU5HMWZWV05hZWxkNmNtUjFRa0pEYlhaWlRYQm1hM1JWUVEiLCJ0eXAiOiJlbnRpdHktc3RhdGVtZW50K2p3dCJ9.eyJleHAiOjE2OTY1ODMzMzQsImlhdCI6MTY5NjI4MzMzNCwiaXNzIjoiaHR0cHM6Ly90cnVzdC1hbmNob3IuZXhhbXBsZS5vcmciLCJzdWIiOiJodHRwczovL3RydXN0LWFuY2hvci5leGFtcGxlLm9yZyIsImp3a3MiOnsia2V5cyI6W3sia3R5IjoiUlNBIiwia2lkIjoiWldGVFFtaGZUV1pJVG5GVFkzRlNXakp1TkcxZlZXTmFlbGQ2Y21SMVFrSkRiWFpaVFhCbWEzUlZRUSIsImUiOiJBUUFCIiwibiI6InhPQnN0YnJUUE9SQ3JnTXowQ254Skk4cjd4TkwwYjZITExKY05NSkNQbGl0SmUzNUZUdGw1bVdMVXFoeFdiRXFYYnpVLW80VHd1ZHA5NHFrckI3Zks5cEk0bDBldEoxMFZTbTQ0dXNiakxoMTUwVXFlSnlmQmdyMzRWbWhINWo3ZFMzS3V5bjNvOEdER2ZjNDVjcmdsR3lNOUgzbFp6SGl6SXdncDVzSUhCeGFPRWQ1eXlOdXhBLXFFQU4zaFIxQi1LQ2JYaWVDRVRrcWNMWU1zX2psRHVsTVE0MzI5TEgwNkhaclhINElfUHVnWXd0WldUN0VqZUR6c3Y2Ny14TFFhOEg3cnV1N3JVME1FREl0TkVpS3ljdVk5b0pLWWtrX2hBQzFMNkt2VkNmeXpVOGVvem9KQzM4eGhXUklNTXJZd2hiSmFaa3dUdDZCRDByalNNRUp6USJ9XX0sIm1ldGFkYXRhIjp7ImZlZGVyYXRpb25fZW50aXR5Ijp7ImZlZGVyYXRpb25fZmV0Y2hfZW5kcG9pbnQiOiJodHRwczovL3RydXN0LWFuY2hvci5leGFtcGxlLm9yZy9mZXRjaCIsImZlZGVyYXRpb25fcmVzb2x2ZV9lbmRwb2ludCI6Imh0dHBzOi8vdHJ1c3QtYW5jaG9yLmV4YW1wbGUub3JnL3Jlc29sdmUiLCJmZWRlcmF0aW9uX2xpc3RfZW5kcG9pbnQiOiJodHRwczovL3RydXN0LWFuY2hvci5leGFtcGxlLm9yZy9saXN0Iiwib3JnYW5pemF0aW9uX25hbWUiOiJUQSBleGFtcGxlIiwiaG9tZXBhZ2VfdXJpIjoiaHR0cHM6Ly90cnVzdC1hbmNob3IuZXhhbXBsZS5vcmcvaG9tZSIsInBvbGljeV91cmkiOiJodHRwczovL3RydXN0LWFuY2hvci5leGFtcGxlLm9yZy9wb2xpY3kiLCJsb2dvX3VyaSI6Imh0dHBzOi8vdHJ1c3QtYW5jaG9yLmV4YW1wbGUub3JnL3N0YXRpYy9sb2dvLnN2ZyIsImNvbnRhY3RzIjpbInRlY2hAdHJ1c3QtYW5jaG9yLmV4YW1wbGUub3JnIl19fSwiY29uc3RyYWludHMiOnsibWF4X3BhdGhfbGVuZ3RoIjoxfX0.ZenICRAm4zrd65A3tsSN77VLjheJAK09s8sBXQVo2l3r7RrN8pXFKqulZebxfSALF4am58Ry8GeK2N1ZK7B1GlfskAnnIINfi-IpjqquvPW_MXrSo0bLoXnnmruHJ1D0KbONbwdZaOZg4oJRo2PBU009pojheUwcRcNDujCRiQimsvEYlL4YLwpPHjEmt46WviPESnZCgez_oEdoXkNjN3PsOta9de_abjkASYdGgAlBTIbUjAutmErbubjKptxpvycibBLuJ58nkiQZ_KesLRPnDY9hbPf0ZMbtCB_gx8yLlQ9-8nE5_fuxICz1uKR4536txsQFmrCvireBchaZ1A"
+  ]
+```
 
 ## 11. Differences between OpenID Federation 1.0 and OpenID4RS
+
+TBD.
+
 Highlights the key differences and improvements of the OpenID4RS profile over the standard OpenID Federation 1.0, emphasizing enhancements tailored for the Research and Education ecosystem.
 
 ## 13. Security Considerations and Current Best Practices
+
+TBD.
+
 Discusses the security considerations and best practices within the federation, aiming to ensure the integrity, confidentiality, and availability of federated services.
-
-- OpenID Federation supports OAuth 2.0 clients, authorization servers, and resource servers in establishing trust and then establishing authorizations, without solely relying on bearer tokens. It requires a demonstration of possession and a discovery process for cryptographic materials. This ensures a higher level of security and identity assurance for the parties involved, leveraging the federation for enhanced security measures in digital identity and authorization management.
-
 
 ## 14. Examples
 Provides practical examples of federation scenarios, configurations, and implementations, offering insights into real-world applications of the OpenID Federation.
