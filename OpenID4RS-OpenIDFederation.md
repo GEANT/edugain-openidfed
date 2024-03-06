@@ -270,6 +270,7 @@ Below is a simplified, non-normative example of a Subordinate Statement, where t
   "sub": "https://leaf.example.edu",
   "iat": 1516239022,
   "exp": 1516298022,
+  "source_endpoint": "https://leaf.example.edu/federation/fetch",
   "jwks": {
     "keys": [
         {
