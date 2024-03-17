@@ -598,30 +598,94 @@ TBD.
 
 Discusses the security considerations and best practices within the federation, aiming to ensure the integrity, confidentiality, and availability of federated services.
 
-## 14. Examples
-Provides practical examples of federation scenarios, configurations, and implementations, offering insights into real-world applications of the OpenID Federation.
+## 14. Configuration Steps by Roles
+Provides practical of federation scenarios, configurations, and implementations, offering insights into real-world applications of the OpenID Federation.
 
 ### How to Configure a Trust Anchor
 
-TBD.
+Configuring a Trust Anchor within the OpenID Federation involves the following steps to establish it as a central authority that can validate and manage trust relationships within the federation. Here's a concise list of steps to be accomplished to set up a Trust Anchor:
+
+1. Decide Your Entity ID HTTPS URL. Your entity ID should be a secure HTTPS URL that uniquely identifies your entity within the federation and over the world wide web.
+2. Generate Your Federation Entity Keys. Generate a set of cryptographic keys used for all the federation operations, such as issuing Subordinate Statements or signing your Entity Configuration. Ensure to securely store the private key and make the public key available in your entity configuration under the top-level `jwks` claim.
+3. Create Your OpenID-Federation Entity Configuration. Create a JSON document representing your Entity Configuration for your Trust Anchor and sign it using one of your Federation Entity Keys. Ensure that the `sub` (subject) and `iss` (issuer) claims within this configuration match your entity ID.
+4. Create the required `metadata.federation_entity` endpoints. Implement the specialized endpoints necessary for a Trust Anchor's operations, such as `federation_list_endpoint`, `federation_fetch_endpoint`, and `federation_trust_mark_endpoint`.
+5. Use a Trust Framework. Adopt at least a trust framework that clearly defines the roles and responsibilities of Trust Mark Issuers. This framework should outline the value and purpose of each Trust Mark recognizable within the federation.
+6. Onboard Trust Mark Issuers. Integrate Trust Mark Issuers into your federation, if any (otherwise the Trust Anchor would be the only Trust Mark Issuer). Include their entity IDs in your entity configuration under `trust_mark_issuers` to formally recognize them within your trust framework.
+7. Define Metadata Policies for your Subordinates. Establish the metadata policies that your Subordinate Entities must adhere to. These policies will guide the operational and security standards within the federation and will be published within each Subordinate Statement issued for your Subordinates.
+8. Publish the Entity Configuration. Make your Entity Configuration publicly available by appending `/.well-known/openid-federation` to your entity ID URL. This step ensures that other federation participants can discover and interact with your Trust Anchor.
+9. Onboard Your Immediate Subordinates. Begin the process of integrating your immediate Subordinate Entities. This involves verifying their compliance with your defined metadata policies and incorporating them into the federation's trust chain.
+
+These steps have described, at a high level, the crucial steps to effectively set up a Trust Anchor, laying the foundation for a secure and reliable OpenID Federation network.
 
 ### How to Configure an Intermediate
 
-TBD.
+Configuring an Intermediate entity within the OpenID Federation is a process that involves setting up an entity that acts as a mediator in the trust chain between the Trust Anchor - or any other superior Intermediate under the Trust Anchor - and the end entities (such as Relying Parties or Identity Providers). Here's a step-by-step guide on how to set up an Intermediate entity:
+
+1. Decide Your Entity ID HTTPS URL. As described in the previous section. 
+2. Generate Your Federation Entity Keys. As described in the previous section. 
+3. Create Your OpenID-Federation Entity Configuration. As described in the previous section. 
+4. Include Authority Hints: In your Entity Configuration, include `authority_hints` which point to the  Entities, such as the Trust Anchor or one or more Intermediates - above you in the Trust Chain. This is a crucial property that guide entities in the federation to construct and verify the trust chain.
+5. Create the required `metadata.federation_entity` endpoints. As described in the previous section.
+6. Define Metadata Policies for your Subordinates. As described in the previous section. 
+7. Publish the Entity Configuration. As described in the previous section. 
+8. Onboard Your Immediate Subordinates. Start integrating entities that are directly subordinate to you. This involves verifying their compliance with the federation's metadata policies and including them in the federation's trust chain.
+
+These steps have described, at a high level, the crucial steps to effectively set up a Intermediate entity that effectively supports the trust chain within the OpenID Federation.
 
 #### How to Revoke a Subordinate
 
-TBD. 
+The revocation of trust and the management of entities compliance are critical components for maintaining the integrity and security of the federation. There are two kind of revocations:
+
+- **Revocation of Federation Entity Status**: When an entity is no longer compliant with the shared regulations, either voluntarily or involuntarily, it ceases to be a part of the federation. This revocation signifies the entity's departure from the federation due to non-compliance with the established standards and policies.
+
+- **Revocation of Specific Compliance**: This occurs when an entity remains within the federation but loses the ability to fulfill a specific role, perform certain actions, maintain expected behaviors, or demonstrate particular capabilities previously enabled within the ecosystem. Despite its continued membership, the entity's scope of participation and operational capabilities are restricted due to this targeted revocation.
+
+There are two ways to check and validate the revocation status regarding a participant, the Federation Entity Discovery and the Trust Mark validation.
+
+##### Federation Entity Discovery
+Entity discovery in a federation involves identifying and obtaining metadata about entities (such as Identity Providers, Relying Parties, etc.) that participate in the federation. This process collects and validate a trust chain related to an entity. When a subordinate Statement is expired or not available anymore, the entity cannot be considered anymore part of the federation.
+
+##### Trust Marks
+In cases where an entity no longer complies with the federation's standards or has violated certain terms, its Trust Marks can be actively revoked before the expiration date. Revocation might be necessary due to security breaches, policy violations, or changes in the entity's operations that no longer align with the federation's standards. A Particular Federation API endpoint is used for the realtime Trust Mark checks, the `federation_trust_mark_status_endpoint`. During the entity discovery process, an entity's trust marks can be verified in real-time by checking against the `federation_trust_mark_status_endpoint`. 
 
 ### How to Configure a Trust Mark Issuer
 
-TBD.
+Configuring a Trust Mark Issuer within the OpenID Federation involves establishing an entity that is responsible for issuing, managing, and validating Trust Marks within the federation. Here's a streamlined guide on setting up a Trust Mark Issuer:
+
+1. Decide Your Entity ID HTTPS URL. As described in the previous section.
+2. Generate Your Federation Entity Keys. As described in the previous section.
+3. Create Your OpenID-Federation Entity Configuration. As described in the previous section.
+4. Include Authority Hints. As described in the previous section.
+5. Create the Required `metadata.federation_entity` Endpoints. Specifically for a Trust Mark Issuer, you must implement at least the `federation_trust_mark_status_endpoint` and `federation_trust_mark_endpoint`. These endpoints are critical for managing Trust Marks within the federation, allowing for the publication of Trust Mark statuses and facilitating Trust Mark operations.
+6. Publish the Entity Configuration. As described in the previous section. This ensures that other federation participants can discover and interact with your Trust Mark Issuer entity.
+
+Following these steps will enable you to configure a Trust Mark Issuer, a key component in the OpenID Federation that supports the trust and security framework by managing Trust Marks.
 
 ### How to Configure a Provider
-Guides entities through the process of becoming a provider within the OpenID Federation, detailing the requirements, steps, and benefits of participation.
+
+Configuring a Provider within the OpenID Federation involves setting up an entity that offers identity verification services to Relying Parties. This setup ensures secure and standardized identity assertions within the federation. Here's how to configure a Provider:
+
+1. Decide Your Entity ID HTTPS URL. As described in the previous section.
+2. Generate Your Federation Entity Keys. As described in the previous section.
+3. Create Your OpenID-Federation Entity Configuration. As described in the previous section.
+4. Include Authority Hints. As described in the previous section.
+5. Include `metadata.openid_provider` in your Entity Configuration. In addition to the steps mentioned above, as a Provider, you must include specific metadata in your entity configuration under the openid_provider key. This metadata includes protocol-specific information such as authorization endpoint URLs, token endpoint URLs, userinfo endpoint URLs, and other OpenID Connect discovery document fields. This information is crucial for Relying Parties to interact with the Provider according to the OpenID Connect protocol. For detailed references on the specific metadata required for the openid_provider, consult the OpenID Connect Discovery 1.0 specification, which outlines the necessary service documentation for OpenID Providers and ... [link to our oidc core impl profile].
+6. Publish the Entity Configuration. As described in the previous section.
+
+By following these steps and including the required OpenID Connect specific metadata, you can configure a Provider entity that is ready to participate in the OpenID Federation, offering identity verification services in a secure and standardized manner.
 
 ### How to Configure a Relying Party
 
+Configuring a Relying Party within the OpenID Federation involves setting up an entity that relies on a Provider for identity verification services. This configuration enables secure and standardized authentication processes within the federation. Here's the guide to configure a Relying Party:
+
+1. Decide Your Entity ID HTTPS URL. As described in the previous section.
+2. Generate Your Federation Entity Keys. As described in the previous section.
+3. Create Your OpenID-Federation Entity Configuration. As described in the previous section. 
+4. Include Authority Hints. As described in the previous section.
+5. Add `metadata.openid_relying_party`: In addition to the steps mentioned above, as a Relying Party, you must include specific metadata in your entity configuration under the openid_relying_party key. This metadata includes protocol-specific information relevant to OpenID Providers.
+6. Publish the Entity Configuration. As described in the previous section. This ensures that other federation participants can discover and interact with your Relying Party entity.
+
+Following these steps, including the required OpenID Connect specific metadata, allows you to configure a Relying Party entity ready to participate in the OpenID Federation, leveraging identity verification services in a secure and standardized way.
 
 
 
