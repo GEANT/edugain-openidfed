@@ -270,6 +270,7 @@ Below is a simplified, non-normative example of a Subordinate Statement, where t
   "sub": "https://leaf.example.edu",
   "iat": 1516239022,
   "exp": 1516298022,
+  "source_endpoint": "https://leaf.example.edu/federation/fetch",
   "jwks": {
     "keys": [
         {
@@ -464,7 +465,7 @@ OP -> OP: Derive RP's final metadata
 **Sequence Diagram x.** The [sequence diagram](https://www.plantuml.com/plantuml/uml/TPB1Qjmm48RlUeeXbwQ7la0F9KkofQO56oVjAH1KQxmUa4TYDDfctxvoXC4n6ryiPhxv_tzitIMredds9fOt3HGjAzoq4RbvW4x2cHmAtBRTvnkm2ThkFTYZln2Ve2l52zps5OD-XpMiA3CwiefmP2KbJ6zaStnFFabE2WSUfY1lmDF1cBQ3Bz-Aw5VuZZfCvVGfLPaBt0SUwPJ5AWKs_HlP5h97pSBNgOtWyLN53iKnQt5Sq1_4cc2KC5UV3mpMZxEVDCQ7464C0cY7QTSsK9xgtXpNTQvbN8WJAepei5PUnWL-iP7WT_zh4IeIDSmgz9Z_1d74LX4UrIhEkB6iv1_hoIs0JWXHy4mX9qWh_Smv4P-MRX5TlTU8F_6IdZdMpHqGBzm7jiZEc2k-zG_VJvRO6EiLcd5R0qfmNbYmx20plaOITBijEWa3eeD_fDCcPwsdPD0dt8qSIaXTWJfu50co3tg8qHCcw8AdeHmshGSKEcEz5YEnzJ2ZMcVL6dDNPFBi_mC0) about an OP building the Trust chain related to an RP.
 
 
-### How checks a Lead againt any revocations
+### How checks a Leaf againt any revocations
 
 The sequence diagram below illustrates the federation discovery process from the perspective of an OpenID Provider (OP) verifying an unexpired trust chain for a Relying Party (RP). The process involves fetching the RP's entity configuration, following authority hints to reach the Trust Anchor, collecting all subordinate statements along the way, and validating the trust chain.
 
