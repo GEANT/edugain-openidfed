@@ -1,7 +1,3 @@
-> Moved to [GEANT/edugain-openidfed](https://github.com/GEANT/edugain-openidfed)
-
-
-
 # OpenID for Research and Scholarship (OpenID4RS) Project
 
 This project aims to establish a trust model for the Research and Scholarship (Research and Education)
