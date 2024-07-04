@@ -1,4 +1,4 @@
-# OpenID for Research and Scholarship (OpenID4RS) Project
+# OpenID for Research and Education (OpenID4RE) Project
 
 This project aims to establish a trust model for the Research and Scholarship (Research and Education)
 ecosystem using OpenID Connect and OpenID Federation specifications.
