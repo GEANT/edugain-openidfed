@@ -55,13 +55,13 @@ The terms are subdivided in two categories, by roles within the ecosystem and te
 
 - **Trust Anchor**: The foundational authority in a trust chain, responsible for the root of trust from which all trust relationships are derived. It is the most trusted entity, typically issuing the top-level informations in and about the federation.
 
-- **Intermediate**: Entities in the trust chain that facilitate the extension of trust from the Trust Anchor to leaf entities. They may issue cryptograhical verifiable information to other intermediates or directly to leaf entities, acting as a bridge in the trust chain.
+- **Intermediate**: Entities in the trust chain that facilitate the extension of trust from the Trust Anchor to leaf entities. They may issue cryptographical verifiable information to other intermediates or directly to leaf entities, acting as a bridge in the trust chain.
 
-- **Leaf**: The end entities in a trust chain that rely on cryptograhical verifiable information issued by Trust Anchors or Intermediates. Leaf entities are typically specific digital services that participate in the federation, relying on the trust framework established by higher-level entities.
+- **Leaf**: The end entities in a trust chain that rely on cryptographical verifiable information issued by Trust Anchors or Intermediates. Leaf entities are typically specific digital services that participate in the federation, relying on the trust framework established by higher-level entities.
 
 - **Trust Mark Issuer**: An entity authorized to issue Trust Marks within the federation. Trust Marks serve as indicators of compliance or adherence to specific standards, policies, or practices, enhancing the trustworthiness of entities that possess them.
 
-- **Subordinate**: Entity directly accredited by a Trust Anchor or an Intermediate entity. Eg: Marco (Leaf) accredited by Alice (Intermediate) is Subonrdinate of Alice.
+- **Subordinate**: Entity directly accredited by a Trust Anchor or an Intermediate entity. Eg: Marco (Leaf) accredited by Alice (Intermediate) is Subordinate of Alice.
 
 - **Descendant**: Entity indirectly linked to a superior entity. Eg: Marco (Leaf) accredited by Alice (Intermediate) is Descendant of the Trust Anchor where Alice is Subordinate of the Trust Anchor or its Descendant, if accredited by another Intermediate.
 
@@ -73,7 +73,7 @@ The terms are subdivided in two categories, by roles within the ecosystem and te
 
 ## 3. A Federation For Digital Identities And Authorizations
 
-The OpenID Federation constructs a trust infrastructure composed of authorities and participants. Trust relationships are forged through the OpenID Federation standard, facilitating authorization and authentication processes for accessing specific digital resources. These processes are enabled by protocols, not detailed in this document, which are integrated into the OpenID Federation as metadata. This integration allows for the customization of each participant's requirements and ensures interoperability.
+The OpenID Federation constructs a trust infrastructure composed of authorities and participants. Trust relationships are forged through the OpenID Federation standard, facilitating authorization and authentication processes for accessing specific digital resources. These processes are enabled by protocols, not detailed in this document, which are integrated into the OpenID Federation as metadata. This integration allows customization of each participant's requirements and ensures interoperability.
 
 This framework promotes delegation and the transitive extension of trust among the federation's various entities, thereby streamlining trust propagation. OpenID Federation is able to solve the problem represented in the following figure, where the answer is "Through a common Trusted Third Party" that in this case is represented by the Trust Anchor.
 
@@ -102,12 +102,12 @@ Trust Anchor Entity Configuration (what TA says about itself)
          |
          + Alice Subordinate Statement  (what Alice says about Carlo) -- Carlo (Relying Party)
 ```
-**Figure 2.** __How the trust relations ships are represented though cryptographically signed statements__
+**Figure 2.** __How the trust relationships are represented though cryptographically signed statements__
 
 
 ## 4. Entity Configuration
 
-By publishing the Entity Configuration, an entity publishes the parameters and settings that describe its roles, capabilities, and requirements within the federation. The Entity Configuration is a Federation Metadata in Jose format, signed by an entity regarding itself, and published at the web endpoint `.well-known/openid-federation`.
+By publishing the Entity Configuration, an entity publishes the parameters and settings that describe its roles, capabilities, and requirements within the federation. The Entity Configuration is a Federation Metadata in JOSE format, signed by an entity regarding itself, and published at the web endpoint `.well-known/openid-federation`.
 
 Below is a simplified, non-normative example of an Entity Configuration, where the JWT header and payload are represented as decoded plaintext:
 
@@ -188,7 +188,7 @@ Below is a simplified, non-normative example of an Entity Configuration, where t
 }
 ```
 
-Below a brief description of each parameter contained within the Entity Configuration despite the role of the federation entity, the following parameters are REQUIRED for all the entities types, be they Trust Ancors, Intermediates or Leaves. These parameters are defined as "Entity Configuration Common Parameters".
+Below a brief description of each parameter contained within the Entity Configuration despite the role of the federation entity, the following parameters are REQUIRED for all the entities types, be they Trust Anchors, Intermediates or Leaves. These parameters are defined as "Entity Configuration Common Parameters".
 
 | Claim              | Description                                                                                   |
 |--------------------|-----------------------------------------------------------------------------------------------|
@@ -196,18 +196,18 @@ Below a brief description of each parameter contained within the Entity Configur
 | `sub`              | String. Identifier of the Entity to which it is referred. Both `iss` and `sub` contain the same value (URL). |
 | `iat`              | UNIX Timestamp with the time of generation of the JWT.                                        |
 | `exp`              | UNIX Timestamp with the expiry time of the JWT.                                               |
-| `jwks`             | Federatioin Entity Keys, a JSON Web Key Set (JWKS) containing the public part of the signing keys of the Entity to be used for the Trust and Federation operations.  |
+| `jwks`             | Federation Entity Keys, a JSON Web Key Set (JWKS) containing the public part of the signing keys of the Entity to be used for the Trust and Federation operations.  |
 | `metadata`         | JSON Object. Contains Metadata according to the schema of that type. Possible types include `openid_relying_party`, `openid_provider`, `federation_entity`, `oauth_authorization_server`, and `oauth_resource`. |
 
 
-In addition to the Entity Configuration Common Parameters, the Trust Anchor MAY contain the following paramenters, which their requirement may vary by each of them.
+In addition to the Entity Configuration Common Parameters, the Trust Anchor MAY contain the following parameters, which their requirement may vary by each of them.
 
 | Claim              | Description                                                                                   |
 |--------------------|-----------------------------------------------------------------------------------------------|
 | `constraints`      | JSON Object that describes the defaults constraints to be applied to its Subordinates and Descendants. See the section [TODO ... TBD] for any configuration detail.   |
 | `trust_mark_issuers` | JSON Array indicating which Federation authorities are considered trustworthy for issuing specific Trust Marks. |
 
-In addition to the Entity Configuration Common Parameters, Intermediates and Leaves contains the following paramenters:
+In addition to the Entity Configuration Common Parameters, Intermediates and Leaves contains the following parameters:
 
 | Claim              | Description                                                                                   |
 |--------------------|-----------------------------------------------------------------------------------------------|
@@ -228,7 +228,7 @@ The **federation_entity** metadata section within an Entity Configuration provid
 | **logo_uri** | The URL of an image file representing the organization's logo. |
 | **contacts** | A list of email addresses or other contact information for reaching out to the organization. |
 
-This metadata give the administative informations, federation role and common capabilities of the entity within the federated identity ecosystem, according to the common federation role types. 
+This metadata give the administrative informations, federation role and common capabilities of the entity within the federated identity ecosystem, according to the common federation role types. 
 
 ### Entity Configurations for Multiple Federations
 
@@ -250,7 +250,7 @@ By maintaining separate keys for the federation entity and the specific metadata
 ## 5. Subordinate Statement
 This section describes the structure of entity statements within the federation, which are crucial for proving a relationship with a subordinate entity.
 
-By publishing the Subordinate Statement, an entity publishes the public keys and settings regarding a subject, its Subordinate within the federation. The Subordinate Statement enconded in Jose format, signed by an entity regarding another entity (`iss` != `sub`), and published at the web endpoint called federation fetch endpoint.
+By publishing the Subordinate Statement, an entity publishes the public keys and settings regarding a subject, its Subordinate within the federation. The Subordinate Statement encoded in JOSE format, signed by an entity regarding another entity (`iss` != `sub`), and published at the web endpoint called federation fetch endpoint.
 
 > How the federation fetch endpoint is known?
 
@@ -316,11 +316,11 @@ The parameters provided in the Subordinate Statements are defined below, ensurin
 | iss | REQUIRED | The Entity Identifier of the issuer of the Subordinate Statement. |
 | sub | REQUIRED | The Entity Identifier of the subject. |
 | iat | REQUIRED | The time the statement was issued, represented as seconds from 1970-01-01T0:0:0Z measured in UTC. |
-| exp | REQUIRED | Expiration time after which the statement MUST NOT be accepted for processing, represented as seconds from 1970-01-01T0:0:0Z measured in UTC (Unix timestamp). |
+| exp | REQUIRED | Expiration time after which the statement MUST NOT be accepted for processing, represented as seconds from 1970-01-01T0:0:0Z measured in UTC (UNIX timestamp). |
 | jwks | REQUIRED | A JSON Web Key Set (JWKS) representing the public part of the subject's Federation Entity signing keys. |
 | metadata | OPTIONAL | JSON object with protocol-specific claims that overrides the subject's metadata. |
 | metadata_policy | OPTIONAL | JSON object that defines a metadata policy. The metadata policy applies to the descendant's metadata, therefore to Subordinate's metadata as well as to all Entities that are Subordinate to it. |
-| constraints | OPTIONAL | JSON object that describes constraints that apply to the Trust Chain inm erlations to the Descendants. |
+| constraints | OPTIONAL | JSON object that describes constraints that apply to the Trust Chain in relation to the Descendants. |
 | trust_marks | OPTIONAL | An array of JSON objects, each representing a Trust Mark. |
 | trust_mark_issuers | OPTIONAL | A Trust Anchor MAY use this claim to tell which combination of Trust Mark identifiers and issuers are trusted by the federation. |
 | trust_mark_owners | OPTIONAL | If a Federation Operator knows that a Trust Mark identifier is owned by an Entity different from the Trust Mark issuer, then that knowledge MUST be expressed in this claim. |
@@ -342,7 +342,7 @@ Accreditations bodies have their hierarchy, since the Trust Anchor registers bot
 
 ## 7.1 Accreditation Bodies Constraints
 
-There are Accreditation Bodies, in the form of Intermediates, allowed to registers only the entities belonging to their domain. When this is true, the trust anchor includes in the subordinate statement regarding to these type of accreditation bodies, the following parameters:
+There are Accreditation Bodies, in the form of Intermediates, allowed to register only the entities belonging to their domain. When this is true, the trust anchor includes in the subordinate statement regarding to these type of accreditation bodies, the following parameters:
 
 | Parameter Name | State | Description |
 |----------------|-------|-------------|
@@ -352,7 +352,7 @@ There are Accreditation Bodies, in the form of Intermediates, allowed to registe
 
 ## 8. Trust Establishment and Metadata Exchange
 
-Trust within the OpenID Federation is established through a multi-step process that involves the discovery and collection of entity statements (Leaf's Entity Confgiuration, one or more Subordinate Statements, Trust Anchor Entity Confgiuration), validation of derivating Trust Chain, validation of Trust Marks (if allowed by the Trust Anchor), and the application of metadata policies to obtain the final metadata for an entity. This process ensures that trust is not only declared but also verified and enforced according to the federation's standards and policies.
+Trust within the OpenID Federation is established through a multi-step process that involves the discovery and collection of entity statements (Leaf's Entity Configuration, one or more Subordinate Statements, Trust Anchor Entity Configuration), validation of derivating Trust Chain, validation of Trust Marks (if allowed by the Trust Anchor), and the application of metadata policies to obtain the final metadata for an entity. This process ensures that trust is not only declared but also verified and enforced according to the federation's standards and policies.
 
 ### Discovery and Collection of Trust Chains
 The process begins with the discovery of trust chains. A trust chain is a sequence of Subordinate Statements, starting from a known Trust Anchor down to the entity in question. Each entity in the chain, except for the Trust Anchor, must have a Subordinate Statement issued by its immediate superior in the chain. The discovery process typically involves fetching these statements from well-known endpoints or directories maintained by the federation.
@@ -403,7 +403,7 @@ This comprehensive process ensures that trust within the federation is not only 
 The process of an Authorization Server (AS) or OpenID Provider (OP) registering a new Client or Relying Party (RP) often involves automatic client registration. This process allows clients to be dynamically registered with the AS/OP without manual intervention. Below the steps an AS/OP follows to register a new Client/RP:
 
 1. **Client Request**: The RP sends a request to the AS/OP. This request is a protocol specific request providing at least the entity ID in the form of HTTPs URL.
-2. **Validation**: The AS/OP discovers the trust with the Client usinf the federation discovery process.
+2. **Validation**: The AS/OP discovers the trust with the Client using the federation discovery process.
 3. **Registration Confirmation**: If the Trust Chains is successful, the AS/OP accepts the request.
 
 ```
@@ -465,7 +465,7 @@ OP -> OP: Derive RP's final metadata
 **Sequence Diagram x.** The [sequence diagram](https://www.plantuml.com/plantuml/uml/TPB1Qjmm48RlUeeXbwQ7la0F9KkofQO56oVjAH1KQxmUa4TYDDfctxvoXC4n6ryiPhxv_tzitIMredds9fOt3HGjAzoq4RbvW4x2cHmAtBRTvnkm2ThkFTYZln2Ve2l52zps5OD-XpMiA3CwiefmP2KbJ6zaStnFFabE2WSUfY1lmDF1cBQ3Bz-Aw5VuZZfCvVGfLPaBt0SUwPJ5AWKs_HlP5h97pSBNgOtWyLN53iKnQt5Sq1_4cc2KC5UV3mpMZxEVDCQ7464C0cY7QTSsK9xgtXpNTQvbN8WJAepei5PUnWL-iP7WT_zh4IeIDSmgz9Z_1d74LX4UrIhEkB6iv1_hoIs0JWXHy4mX9qWh_Smv4P-MRX5TlTU8F_6IdZdMpHqGBzm7jiZEc2k-zG_VJvRO6EiLcd5R0qfmNbYmx20plaOITBijEWa3eeD_fDCcPwsdPD0dt8qSIaXTWJfu50co3tg8qHCcw8AdeHmshGSKEcEz5YEnzJ2ZMcVL6dDNPFBi_mC0) about an OP building the Trust chain related to an RP.
 
 
-### How checks a Leaf againt any revocations
+### How checks a Leaf against any revocations
 
 The sequence diagram below illustrates the federation discovery process from the perspective of an OpenID Provider (OP) verifying an unexpired trust chain for a Relying Party (RP). The process involves fetching the RP's entity configuration, following authority hints to reach the Trust Anchor, collecting all subordinate statements along the way, and validating the trust chain.
 
